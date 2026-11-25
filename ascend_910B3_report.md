@@ -1,6 +1,6 @@
 # Ascend 910B3 vLLM benchmark report
 
-Generated 2026-11-25 19:34 CST (UTC 11:34) while the controller is still running.
+Generated 2026-11-26 04:24 CST (UTC 20:24) while the controller is still running.
 
 ## Status
 
@@ -9,26 +9,21 @@ Generated 2026-11-25 19:34 CST (UTC 11:34) while the controller is still running
 | Plan | `84b3da236a35` |
 | Image | `quay.io/ascend/vllm-ascend:v0.32.0rc1-openeuler` |
 | Planned runs | 940 (47 models × 20 configs) |
-| Finished successfully | 396 |
+| Finished successfully | 503 |
 | Finished failed | 141 |
-| Not yet started | 403 |
-| Controller | running, PID 3158929, elapsed ~1 day 16 hours |
-| Active container | `ascend910b3-bench-84b3da236a35-0537` |
-| Active output | `/data2/alan/ascend910b3-vllm-bench/logs/zai-org__glm-4-9b-hf/prefill_tp1_in4096_out0032_clients008/attempt-20261125T112938516268Z` |
+| In progress | 1 |
+| Not yet started | 295 |
+| Controller | running, PID 3158929, elapsed 2 days 0 hours |
+| Active container | `ascend910b3-bench-84b3da236a35-0644` |
+| Active output | `/data2/alan/ascend910b3-vllm-bench/logs/Qwen__Qwen2.5-3B-Instruct/decode_tp1_in0032_out0512_clients016/attempt-20261125T202301300496Z` |
 
-**Running now:** `zai-org/glm-4-9b-hf` prefill, TP=1, prompt 4096, output 32, 8 clients (plan index 538/940). Seventeen configs for this model are already done; three prefill configs at 4096 tokens remain (clients 8 in progress, then 32 and 128).
+**Running now:** `Qwen/Qwen2.5-3B-Instruct` decode, TP=1, prompt 32, output 512, 16 clients (plan index 645/940). The server is loading weights. Decode configs already done for this model: concurrency 1, 2, 4, 8.
 
-**Queued (not started):** 403 configs across 21 models, in plan order after the current GLM-4 run:
+**Queued (not started):** 15 configs of the current model, then 280 configs across 14 models, in plan order. The in-progress config is separate from this table.
 
 | Model | Configs left |
 |---|---:|
-| `zai-org/glm-4-9b-hf` | 3 |
-| `Qwen/Qwen3-0.6B` | 20 |
-| `deepseek-ai/deepseek-coder-1.3b-instruct` | 20 |
-| `Qwen/Qwen2.5-1.5B-Instruct` | 20 |
-| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | 20 |
-| `ibm-granite/granite-3.3-2b-instruct` | 20 |
-| `Qwen/Qwen2.5-3B-Instruct` | 20 |
+| `Qwen/Qwen2.5-3B-Instruct` | 15 |
 | `microsoft/Phi-4-mini-instruct` | 20 |
 | `Qwen/Qwen3-4B-Instruct-2507` | 20 |
 | `HuggingFaceH4/zephyr-7b-beta` | 20 |
@@ -48,30 +43,35 @@ Failed configs are recorded and are not retried in this pass. `./experiment.sh r
 
 ## Results overview
 
-Successful runs only. Decode throughput is generated tokens received in the 90-second window, divided by 90. TTFT and TPOT are client medians over completed requests. Prefill columns are median TTFT at concurrency 1. A dash means that config did not finish successfully.
+One row per model whose planned configs are all recorded and that has at least one successful run. Decode throughput is generated tokens received in the 90-second window, divided by 90. TTFT and TPOT are client medians over completed requests. Prefill columns are median TTFT at concurrency 1. A dash means that config did not finish successfully.
 
 | Model | TP | Decode tok/s c1 | c8 | c32 | c128 | Decode TPOT ms c1 | Prefill TTFT ms 256 | 1024 | 4096 | Done |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `Qwen/QwQ-32B` | 2 | 28.4 | 216.2 | 699.4 | 1456.4 | 33.6 | 139.1 | 261.6 | 928.6 | 20/20 |
-| `Qwen/Qwen2.5-0.5B-Instruct` | 1 | 100.4 | 694.7 | 2270.2 | 5732.7 | 9.9 | 62.9 | 62.9 | 71.3 | 20/20 |
-| `Qwen/Qwen3-1.7B` | 1 | 90.5 | 718.5 | 2325.0 | 5813.8 | 10.9 | 72.4 | 71.3 | 93.7 | 20/20 |
-| `Qwen/Qwen3-14B` | 1 | 38.7 | 292.1 | 988.2 | 2276.8 | 25.8 | 82.7 | 156.3 | 587.2 | 20/20 |
+| `Qwen/QwQ-32B` | 2 | 28.4 | 216.2 | 699.4 | 1456.4 | 33.60 | 139.1 | 261.6 | 928.6 | 20/20 |
+| `Qwen/Qwen2.5-0.5B-Instruct` | 1 | 100.4 | 694.7 | 2270.2 | 5732.7 | 9.93 | 62.9 | 62.9 | 71.3 | 20/20 |
+| `Qwen/Qwen3-1.7B` | 1 | 90.5 | 718.5 | 2325.0 | 5813.8 | 10.94 | 72.4 | 71.3 | 93.7 | 20/20 |
+| `Qwen/Qwen3-14B` | 1 | 38.7 | 292.1 | 988.2 | 2276.8 | 25.77 | 82.7 | 156.3 | 587.2 | 20/20 |
 | `Qwen/Qwen3-30B-A3B` | 2 | — | 464.7 | 1228.8 | 2905.5 | — | 186.3 | 186.9 | 245.8 | 19/20 |
-| `Qwen/Qwen3-4B` | 1 | 84.0 | 661.6 | 2121.5 | 4962.3 | 11.9 | 94.0 | 99.1 | 205.5 | 20/20 |
-| `Qwen/Qwen3-8B` | 1 | 66.8 | 486.2 | 1656.0 | 3640.9 | 14.9 | 95.1 | 96.1 | 325.4 | 20/20 |
-| `RedHatAI/Llama-3.2-1B-Instruct-quantized.w8a8` | 1 | 116.1 | 850.5 | 2855.6 | 7056.8 | 8.5 | 55.9 | 53.8 | 71.5 | 20/20 |
-| `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | 1 | 97.2 | 744.5 | 2399.8 | 5557.3 | 10.3 | 79.2 | 84.5 | 124.0 | 20/20 |
-| `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | 1 | 88.8 | 602.9 | 1948.9 | 4374.7 | 11.2 | 93.5 | 93.5 | 222.3 | 20/20 |
-| `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | 1 | 86.5 | 606.3 | 1942.6 | 4369.1 | 11.5 | 96.3 | 98.4 | 222.1 | 20/20 |
-| `RedHatAI/QwQ-32B-quantized.w8a8` | 1 | 34.1 | 249.0 | 838.0 | 2067.1 | 28.8 | 130.0 | 188.4 | 769.3 | 20/20 |
-| `ibm-granite/granite-3.2-2b-instruct` | 1 | 71.6 | 623.9 | 2007.2 | 4910.1 | 13.9 | 104.5 | 108.6 | 169.3 | 20/20 |
-| `meta-llama/Llama-3.1-8B` | 1 | 61.2 | 419.7 | 1445.5 | 3534.1 | 16.3 | 93.1 | 99.8 | 330.4 | 20/20 |
-| `meta-llama/Llama-3.1-8B-Instruct` | 1 | 61.3 | 420.0 | 1442.9 | 3537.1 | 16.2 | 89.7 | 98.4 | 330.3 | 20/20 |
-| `meta-llama/Llama-3.2-1B` | 1 | 119.2 | 897.8 | 2818.1 | 6964.2 | 8.3 | 54.5 | 55.8 | 81.4 | 20/20 |
-| `meta-llama/Llama-3.2-1B-Instruct` | 1 | 124.4 | 862.9 | 2815.7 | 7135.1 | 8.0 | 55.0 | 56.9 | 81.2 | 20/20 |
-| `meta-llama/Llama-3.2-3B-Instruct` | 1 | 98.5 | 722.0 | 2286.1 | 5110.7 | 10.0 | 82.3 | 85.0 | 163.2 | 20/20 |
-| `microsoft/Phi-4-reasoning` | 1 | 39.2 | 288.4 | 910.2 | 2184.5 | 25.5 | 97.7 | 159.0 | 598.9 | 20/20 |
-| `zai-org/glm-4-9b-hf` | 1 | 43.8 | 257.8 | 890.4 | 2721.5 | 22.8 | 152.3 | 147.3 | 456.9 | 17/20 |
+| `Qwen/Qwen3-4B` | 1 | 84.0 | 661.6 | 2121.5 | 4962.3 | 11.92 | 94.0 | 99.1 | 205.5 | 20/20 |
+| `Qwen/Qwen3-8B` | 1 | 66.8 | 486.2 | 1656.0 | 3640.9 | 14.90 | 95.1 | 96.1 | 325.4 | 20/20 |
+| `RedHatAI/Llama-3.2-1B-Instruct-quantized.w8a8` | 1 | 116.1 | 850.5 | 2855.6 | 7056.8 | 8.50 | 55.9 | 53.8 | 71.5 | 20/20 |
+| `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | 1 | 97.2 | 744.5 | 2399.8 | 5557.3 | 10.30 | 79.2 | 84.5 | 124.0 | 20/20 |
+| `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | 1 | 88.8 | 602.9 | 1948.9 | 4374.7 | 11.23 | 93.5 | 93.5 | 222.3 | 20/20 |
+| `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | 1 | 86.5 | 606.3 | 1942.6 | 4369.1 | 11.51 | 96.3 | 98.4 | 222.1 | 20/20 |
+| `RedHatAI/QwQ-32B-quantized.w8a8` | 1 | 34.1 | 249.0 | 838.0 | 2067.1 | 28.79 | 130.0 | 188.4 | 769.3 | 20/20 |
+| `ibm-granite/granite-3.2-2b-instruct` | 1 | 71.6 | 623.9 | 2007.2 | 4910.1 | 13.94 | 104.5 | 108.6 | 169.3 | 20/20 |
+| `meta-llama/Llama-3.1-8B` | 1 | 61.2 | 419.7 | 1445.5 | 3534.1 | 16.30 | 93.1 | 99.8 | 330.4 | 20/20 |
+| `meta-llama/Llama-3.1-8B-Instruct` | 1 | 61.3 | 420.0 | 1442.9 | 3537.1 | 16.24 | 89.7 | 98.4 | 330.3 | 20/20 |
+| `meta-llama/Llama-3.2-1B` | 1 | 119.2 | 897.8 | 2818.1 | 6964.2 | 8.28 | 54.5 | 55.8 | 81.4 | 20/20 |
+| `meta-llama/Llama-3.2-1B-Instruct` | 1 | 124.4 | 862.9 | 2815.7 | 7135.1 | 7.98 | 55.0 | 56.9 | 81.2 | 20/20 |
+| `meta-llama/Llama-3.2-3B-Instruct` | 1 | 98.5 | 722.0 | 2286.1 | 5110.7 | 10.03 | 82.3 | 85.0 | 163.2 | 20/20 |
+| `microsoft/Phi-4-reasoning` | 1 | 39.2 | 288.4 | 910.2 | 2184.5 | 25.45 | 97.7 | 159.0 | 598.9 | 20/20 |
+| `zai-org/glm-4-9b-hf` | 1 | 43.8 | 257.8 | 890.4 | 2721.5 | 22.76 | 152.3 | 147.3 | 456.9 | 20/20 |
+| `Qwen/Qwen3-0.6B` | 1 | 96.7 | 731.7 | 2318.6 | 5831.2 | 10.24 | 66.4 | 66.4 | 74.4 | 20/20 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | 1 | 109.5 | 760.8 | 2415.8 | 5261.8 | 9.08 | 74.4 | 75.5 | 93.4 | 20/20 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | 1 | 94.3 | 652.2 | 2063.2 | 5296.1 | 10.52 | 75.3 | 76.0 | 89.2 | 20/20 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | 1 | 103.8 | 764.4 | 2305.2 | 3640.9 | 9.60 | 63.3 | 63.9 | 112.5 | 20/20 |
+| `ibm-granite/granite-3.3-2b-instruct` | 1 | 80.6 | 590.2 | 2016.6 | 4843.8 | 12.20 | 111.1 | 111.2 | 168.0 | 20/20 |
 
 ## Failures
 
@@ -88,7 +88,7 @@ Successful runs only. Decode throughput is generated tokens received in the 90-s
 
 ## All successful runs
 
-Each row is one finished `done` configuration. TPOT is the median per-request mean time per output token. Throughput excludes the drain window.
+Each row is one finished `done` configuration, including configs of the model that is still in progress. TPOT is the median per-request mean time per output token. Throughput excludes the drain window.
 
 | Model | Study | TP | Prompt | Output | Clients | TTFT median ms | TPOT median ms | Tokens/s | Completed reqs |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -488,12 +488,110 @@ Each row is one finished `done` configuration. TPOT is the median per-request me
 | `zai-org/glm-4-9b-hf` | prefill | 1 | 1024 | 32 | 32 | 1726.4 | 82.42 | 238.3 | 680 |
 | `zai-org/glm-4-9b-hf` | prefill | 1 | 1024 | 32 | 128 | 2429.0 | 370.5 | 273.1 | 843 |
 | `zai-org/glm-4-9b-hf` | prefill | 1 | 4096 | 32 | 1 | 456.9 | 22.53 | 27.6 | 78 |
-
-## Notes
-
-- Host is the reserved Ascend 910B3 set (devices 0–3, 64 GiB HBM each). BF16 models at or above 24B use TP=2 on devices 0 and 1. Quantized checkpoints in this plan used TP=1.
-- AWQ, FP8, and gpt-oss MXFP4 checkpoints failed inside `quay.io/ascend/vllm-ascend:v0.32.0rc1-openeuler` and were recorded as failures. W8A8 checkpoints from RedHatAI completed.
-- `Qwen/Qwen3-30B-A3B` decode concurrency 1 hit the server-ready timeout on the first attempt. The other 19 configs for that model completed. That failed config is still marked failed.
-- Client TPOT uses receive timestamps. Multiple token IDs in one SSE event share one timestamp.
-- This file is a snapshot. The controller is still writing new attempts under `logs/`.
-
+| `zai-org/glm-4-9b-hf` | prefill | 1 | 4096 | 32 | 8 | 1325.0 | 98.40 | 57.1 | 168 |
+| `zai-org/glm-4-9b-hf` | prefill | 1 | 4096 | 32 | 32 | 2599.8 | 373.2 | 67.2 | 203 |
+| `zai-org/glm-4-9b-hf` | prefill | 1 | 4096 | 32 | 128 | 28754.7 | 870.8 | 57.1 | 165 |
+| `Qwen/Qwen3-0.6B` | decode | 1 | 32 | 512 | 1 | 38.6 | 10.24 | 96.7 | 18 |
+| `Qwen/Qwen3-0.6B` | decode | 1 | 32 | 512 | 2 | 61.1 | 11.17 | 177.0 | 32 |
+| `Qwen/Qwen3-0.6B` | decode | 1 | 32 | 512 | 4 | 62.1 | 10.11 | 384.8 | 68 |
+| `Qwen/Qwen3-0.6B` | decode | 1 | 32 | 512 | 8 | 95.7 | 10.78 | 731.7 | 136 |
+| `Qwen/Qwen3-0.6B` | decode | 1 | 32 | 512 | 16 | 109.5 | 11.63 | 1352.8 | 240 |
+| `Qwen/Qwen3-0.6B` | decode | 1 | 32 | 512 | 32 | 168.8 | 13.43 | 2318.6 | 416 |
+| `Qwen/Qwen3-0.6B` | decode | 1 | 32 | 512 | 64 | 224.5 | 16.27 | 3849.5 | 704 |
+| `Qwen/Qwen3-0.6B` | decode | 1 | 32 | 512 | 128 | 365.6 | 21.07 | 5831.2 | 1028 |
+| `Qwen/Qwen3-0.6B` | prefill | 1 | 256 | 32 | 1 | 66.4 | 10.02 | 84.6 | 238 |
+| `Qwen/Qwen3-0.6B` | prefill | 1 | 256 | 32 | 8 | 127.5 | 10.56 | 561.3 | 1584 |
+| `Qwen/Qwen3-0.6B` | prefill | 1 | 256 | 32 | 32 | 174.7 | 12.65 | 1800.2 | 5088 |
+| `Qwen/Qwen3-0.6B` | prefill | 1 | 256 | 32 | 128 | 443.3 | 23.56 | 3473.4 | 9897 |
+| `Qwen/Qwen3-0.6B` | prefill | 1 | 1024 | 32 | 1 | 66.4 | 9.85 | 85.5 | 241 |
+| `Qwen/Qwen3-0.6B` | prefill | 1 | 1024 | 32 | 8 | 145.6 | 11.17 | 517.7 | 1464 |
+| `Qwen/Qwen3-0.6B` | prefill | 1 | 1024 | 32 | 32 | 176.1 | 16.92 | 1444.6 | 4079 |
+| `Qwen/Qwen3-0.6B` | prefill | 1 | 1024 | 32 | 128 | 246.5 | 52.45 | 2176.3 | 6173 |
+| `Qwen/Qwen3-0.6B` | prefill | 1 | 4096 | 32 | 1 | 74.4 | 10.37 | 81.2 | 229 |
+| `Qwen/Qwen3-0.6B` | prefill | 1 | 4096 | 32 | 8 | 159.3 | 17.88 | 355.6 | 1006 |
+| `Qwen/Qwen3-0.6B` | prefill | 1 | 4096 | 32 | 32 | 191.6 | 59.05 | 502.5 | 1431 |
+| `Qwen/Qwen3-0.6B` | prefill | 1 | 4096 | 32 | 128 | 3929.6 | 118.0 | 525.7 | 1576 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | decode | 1 | 32 | 512 | 1 | 36.2 | 9.08 | 109.5 | 20 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | decode | 1 | 32 | 512 | 2 | 58.1 | 9.79 | 203.0 | 36 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | decode | 1 | 32 | 512 | 4 | 62.3 | 9.98 | 395.4 | 72 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | decode | 1 | 32 | 512 | 8 | 102.5 | 10.26 | 760.8 | 136 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | decode | 1 | 32 | 512 | 16 | 114.9 | 10.73 | 1465.6 | 272 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | decode | 1 | 32 | 512 | 32 | 149.0 | 12.99 | 2415.8 | 448 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | decode | 1 | 32 | 512 | 64 | 207.7 | 15.34 | 4074.8 | 768 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | decode | 1 | 32 | 512 | 128 | 379.5 | 23.56 | 5261.8 | 1024 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 256 | 32 | 1 | 74.4 | 9.64 | 85.6 | 241 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 256 | 32 | 8 | 141.4 | 9.78 | 572.3 | 1616 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 256 | 32 | 32 | 239.9 | 11.55 | 1706.7 | 4832 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 256 | 32 | 128 | 437.1 | 31.78 | 2895.3 | 8224 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 1024 | 32 | 1 | 75.5 | 9.40 | 87.2 | 246 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 1024 | 32 | 8 | 202.0 | 9.58 | 512.3 | 1448 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 1024 | 32 | 32 | 308.2 | 23.38 | 989.9 | 2813 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 1024 | 32 | 128 | 460.1 | 95.14 | 1182.7 | 3399 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 4096 | 32 | 1 | 93.4 | 9.64 | 80.5 | 227 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 4096 | 32 | 8 | 255.8 | 25.83 | 241.7 | 685 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 4096 | 32 | 32 | 518.4 | 96.47 | 288.3 | 832 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 4096 | 32 | 128 | 7351.4 | 197.0 | 294.8 | 928 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | decode | 1 | 32 | 512 | 1 | 40.7 | 10.52 | 94.3 | 17 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | decode | 1 | 32 | 512 | 2 | 62.6 | 10.11 | 194.3 | 36 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | decode | 1 | 32 | 512 | 4 | 70.7 | 10.91 | 335.9 | 60 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | decode | 1 | 32 | 512 | 8 | 103.6 | 10.86 | 652.2 | 120 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | decode | 1 | 32 | 512 | 16 | 116.5 | 11.78 | 1231.4 | 224 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | decode | 1 | 32 | 512 | 32 | 151.2 | 14.03 | 2063.2 | 384 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | decode | 1 | 32 | 512 | 64 | 255.7 | 16.56 | 3501.9 | 640 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | decode | 1 | 32 | 512 | 128 | 387.4 | 21.50 | 5296.1 | 1024 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 256 | 32 | 1 | 75.3 | 10.81 | 77.5 | 219 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 256 | 32 | 8 | 148.0 | 11.63 | 463.6 | 1312 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 256 | 32 | 32 | 239.9 | 12.80 | 1471.3 | 4160 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 256 | 32 | 128 | 520.4 | 29.03 | 2666.0 | 7584 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 1024 | 32 | 1 | 76.0 | 10.57 | 79.0 | 223 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 1024 | 32 | 8 | 201.4 | 11.68 | 418.5 | 1184 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 1024 | 32 | 32 | 284.3 | 21.29 | 996.7 | 2816 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 1024 | 32 | 128 | 552.3 | 66.10 | 1420.6 | 4096 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 4096 | 32 | 1 | 89.2 | 10.01 | 79.5 | 224 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 4096 | 32 | 8 | 194.6 | 22.23 | 266.5 | 752 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 4096 | 32 | 32 | 311.2 | 72.54 | 360.7 | 1031 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 4096 | 32 | 128 | 5295.7 | 155.8 | 362.2 | 1117 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | decode | 1 | 32 | 512 | 1 | 36.4 | 9.60 | 103.8 | 19 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | decode | 1 | 32 | 512 | 2 | 58.7 | 9.85 | 196.2 | 36 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | decode | 1 | 32 | 512 | 4 | 63.2 | 10.08 | 392.3 | 72 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | decode | 1 | 32 | 512 | 8 | 91.5 | 10.18 | 764.4 | 136 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | decode | 1 | 32 | 512 | 16 | 104.5 | 11.11 | 1411.9 | 256 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | decode | 1 | 32 | 512 | 32 | 130.0 | 13.73 | 2305.2 | 416 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | decode | 1 | 32 | 512 | 64 | 204.2 | 17.83 | 3537.5 | 640 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | decode | 1 | 32 | 512 | 128 | 343.6 | 33.06 | 3640.9 | 640 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 256 | 32 | 1 | 63.3 | 9.61 | 87.6 | 247 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 256 | 32 | 8 | 117.7 | 9.85 | 604.3 | 1704 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 256 | 32 | 32 | 257.7 | 12.05 | 1622.5 | 4576 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 256 | 32 | 128 | 559.2 | 40.12 | 2273.2 | 6503 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 1024 | 32 | 1 | 63.9 | 9.33 | 89.3 | 252 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 1024 | 32 | 8 | 224.8 | 10.37 | 466.5 | 1320 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 1024 | 32 | 32 | 392.7 | 29.19 | 785.3 | 2240 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 1024 | 32 | 128 | 629.9 | 133.6 | 839.8 | 2432 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 4096 | 32 | 1 | 112.5 | 9.29 | 80.0 | 226 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 4096 | 32 | 8 | 325.2 | 32.57 | 190.7 | 543 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 4096 | 32 | 32 | 718.9 | 131.3 | 205.8 | 595 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 4096 | 32 | 128 | 10696.0 | 278.6 | 203.4 | 611 |
+| `ibm-granite/granite-3.3-2b-instruct` | decode | 1 | 32 | 512 | 1 | 48.3 | 12.20 | 80.6 | 15 |
+| `ibm-granite/granite-3.3-2b-instruct` | decode | 1 | 32 | 512 | 2 | 78.2 | 12.27 | 160.2 | 30 |
+| `ibm-granite/granite-3.3-2b-instruct` | decode | 1 | 32 | 512 | 4 | 84.2 | 13.46 | 289.3 | 52 |
+| `ibm-granite/granite-3.3-2b-instruct` | decode | 1 | 32 | 512 | 8 | 141.7 | 13.12 | 590.2 | 104 |
+| `ibm-granite/granite-3.3-2b-instruct` | decode | 1 | 32 | 512 | 16 | 161.0 | 14.27 | 1094.9 | 208 |
+| `ibm-granite/granite-3.3-2b-instruct` | decode | 1 | 32 | 512 | 32 | 205.1 | 15.48 | 2016.6 | 384 |
+| `ibm-granite/granite-3.3-2b-instruct` | decode | 1 | 32 | 512 | 64 | 280.1 | 18.15 | 3422.0 | 640 |
+| `ibm-granite/granite-3.3-2b-instruct` | decode | 1 | 32 | 512 | 128 | 401.8 | 25.74 | 4843.8 | 896 |
+| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 256 | 32 | 1 | 111.1 | 12.56 | 63.6 | 180 |
+| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 256 | 32 | 8 | 200.4 | 12.72 | 426.0 | 1200 |
+| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 256 | 32 | 32 | 374.6 | 14.72 | 1222.1 | 3456 |
+| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 256 | 32 | 128 | 594.7 | 39.04 | 2265.6 | 6402 |
+| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 1024 | 32 | 1 | 111.2 | 12.32 | 64.7 | 183 |
+| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 1024 | 32 | 8 | 340.7 | 13.65 | 333.8 | 944 |
+| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 1024 | 32 | 32 | 568.4 | 32.45 | 648.2 | 1839 |
+| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 1024 | 32 | 128 | 817.5 | 147.1 | 735.2 | 2161 |
+| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 4096 | 32 | 1 | 168.0 | 11.63 | 60.1 | 170 |
+| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 4096 | 32 | 8 | 472.1 | 37.96 | 153.8 | 440 |
+| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 4096 | 32 | 32 | 975.8 | 150.5 | 172.1 | 504 |
+| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 4096 | 32 | 128 | 11724.2 | 354.0 | 168.4 | 499 |
+| `Qwen/Qwen2.5-3B-Instruct` | decode | 1 | 32 | 512 | 1 | 45.9 | 11.33 | 87.5 | 16 |
+| `Qwen/Qwen2.5-3B-Instruct` | decode | 1 | 32 | 512 | 2 | 73.9 | 11.45 | 171.6 | 32 |
+| `Qwen/Qwen2.5-3B-Instruct` | decode | 1 | 32 | 512 | 4 | 84.5 | 12.99 | 282.1 | 52 |
+| `Qwen/Qwen2.5-3B-Instruct` | decode | 1 | 32 | 512 | 8 | 126.5 | 12.10 | 596.9 | 112 |

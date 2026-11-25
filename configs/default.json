@@ -1,0 +1,31 @@
+{
+  "image": "quay.io/ascend/vllm-ascend:v0.32.0rc1-openeuler",
+  "host_port": 18881,
+  "devices": [0, 1, 2, 3],
+  "memory_gib_per_npu": 64,
+  "dtype": "bfloat16",
+  "gpu_memory_utilization": 0.85,
+  "max_model_len": 4608,
+  "max_num_seqs": 128,
+  "max_num_batched_tokens": 8192,
+  "enable_prefix_caching": false,
+  "extra_vllm_args": [],
+  "tp_overrides": {},
+  "sweeps": {
+    "decode": {"prompt_tokens": [32], "output_tokens": [512], "concurrency": [1, 2, 4, 8, 16, 32, 64, 128]},
+    "prefill": {"prompt_tokens": [256, 1024, 4096], "output_tokens": [32], "concurrency": [1, 8, 32, 128]}
+  },
+  "measurement": {
+    "warmup_requests": 2,
+    "warmup_output_tokens": 8,
+    "duration_s": 90,
+    "drain_s": 10,
+    "request_timeout_s": 420,
+    "metrics_interval_s": 1,
+    "npu_interval_s": 1,
+    "storage_interval_s": 3,
+    "min_storage_free_gib": 12,
+    "server_ready_timeout_s": 1800,
+    "run_timeout_s": 3600
+  }
+}

@@ -1,6 +1,6 @@
 # Ascend 910B3 vLLM benchmark report
 
-Generated 2026-11-26 04:24 CST (UTC 20:24) while the controller is still running.
+Generated 2026-11-27 23:01 CST (UTC 15:01). The controller has finished the queue.
 
 ## Status
 
@@ -9,41 +9,17 @@ Generated 2026-11-26 04:24 CST (UTC 20:24) while the controller is still running
 | Plan | `84b3da236a35` |
 | Image | `quay.io/ascend/vllm-ascend:v0.32.0rc1-openeuler` |
 | Planned runs | 940 (47 models × 20 configs) |
-| Finished successfully | 503 |
-| Finished failed | 141 |
-| In progress | 1 |
-| Not yet started | 295 |
-| Controller | running, PID 3158929, elapsed 2 days 0 hours |
-| Active container | `ascend910b3-bench-84b3da236a35-0644` |
-| Active output | `/data2/alan/ascend910b3-vllm-bench/logs/Qwen__Qwen2.5-3B-Instruct/decode_tp1_in0032_out0512_clients016/attempt-20261125T202301300496Z` |
+| Finished successfully | 714 |
+| Finished failed | 226 |
+| In progress | 0 |
+| Not yet started | 0 |
+| Controller | stopped after 2 days 23 hours 48 minutes (2026-11-23 19:55 UTC to 2026-11-26 19:44 UTC) |
 
-**Running now:** `Qwen/Qwen2.5-3B-Instruct` decode, TP=1, prompt 32, output 512, 16 clients (plan index 645/940). The server is loading weights. Decode configs already done for this model: concurrency 1, 2, 4, 8.
-
-**Queued (not started):** 15 configs of the current model, then 280 configs across 14 models, in plan order. The in-progress config is separate from this table.
-
-| Model | Configs left |
-|---|---:|
-| `Qwen/Qwen2.5-3B-Instruct` | 15 |
-| `microsoft/Phi-4-mini-instruct` | 20 |
-| `Qwen/Qwen3-4B-Instruct-2507` | 20 |
-| `HuggingFaceH4/zephyr-7b-beta` | 20 |
-| `allenai/OLMo-2-1124-7B-Instruct` | 20 |
-| `Qwen/Qwen2.5-7B-Instruct` | 20 |
-| `ibm-granite/granite-3.3-8b-instruct` | 20 |
-| `01-ai/Yi-1.5-9B-Chat` | 20 |
-| `allenai/OLMo-2-1124-13B-Instruct` | 20 |
-| `microsoft/phi-4` | 20 |
-| `Qwen/Qwen2.5-14B-Instruct` | 20 |
-| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | 20 |
-| `Qwen/Qwen3-30B-A3B-Instruct-2507` | 20 |
-| `allenai/OLMo-2-0325-32B-Instruct` | 20 |
-| `Qwen/Qwen3-32B` | 20 |
-
-Failed configs are recorded and are not retried in this pass. `./experiment.sh resume` would retry anything that is not `done`, including the single `Qwen/Qwen3-30B-A3B` timeout and the unsupported quantization models.
+Nothing is running and nothing is queued. Every planned config is recorded. The 226 remaining count from `./experiment.sh status` is the failed set; `resume` would retry those failures, including unsupported quantization and context-limit runs.
 
 ## Results overview
 
-One row per model whose planned configs are all recorded and that has at least one successful run. Decode throughput is generated tokens received in the 90-second window, divided by 90. TTFT and TPOT are client medians over completed requests. Prefill columns are median TTFT at concurrency 1. A dash means that config did not finish successfully.
+One row per model with at least one successful run. Decode throughput is generated tokens received in the 90-second window, divided by 90. TTFT and TPOT are client medians over completed requests. Prefill columns are median TTFT at concurrency 1. A dash means that config did not finish successfully.
 
 | Model | TP | Decode tok/s c1 | c8 | c32 | c128 | Decode TPOT ms c1 | Prefill TTFT ms 256 | 1024 | 4096 | Done |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -72,6 +48,17 @@ One row per model whose planned configs are all recorded and that has at least o
 | `Qwen/Qwen2.5-1.5B-Instruct` | 1 | 94.3 | 652.2 | 2063.2 | 5296.1 | 10.52 | 75.3 | 76.0 | 89.2 | 20/20 |
 | `HuggingFaceTB/SmolLM2-1.7B-Instruct` | 1 | 103.8 | 764.4 | 2305.2 | 3640.9 | 9.60 | 63.3 | 63.9 | 112.5 | 20/20 |
 | `ibm-granite/granite-3.3-2b-instruct` | 1 | 80.6 | 590.2 | 2016.6 | 4843.8 | 12.20 | 111.1 | 111.2 | 168.0 | 20/20 |
+| `Qwen/Qwen2.5-3B-Instruct` | 1 | 87.5 | 596.9 | 1933.9 | 4750.2 | 11.33 | 91.4 | 96.9 | 157.9 | 20/20 |
+| `microsoft/Phi-4-mini-instruct` | 1 | 90.4 | 641.6 | 1955.1 | 4369.1 | 11.03 | 96.4 | 100.0 | 187.6 | 20/20 |
+| `Qwen/Qwen3-4B-Instruct-2507` | 1 | 85.4 | 647.6 | 2062.7 | 4971.5 | 11.45 | 91.1 | 97.7 | 206.2 | 20/20 |
+| `HuggingFaceH4/zephyr-7b-beta` | 1 | 71.1 | 507.0 | 1680.2 | 3662.3 | 14.00 | 85.0 | 93.7 | 329.1 | 20/20 |
+| `Qwen/Qwen2.5-7B-Instruct` | 1 | 72.2 | 486.1 | 1647.7 | 4369.1 | 13.81 | 67.3 | 88.4 | 292.4 | 20/20 |
+| `ibm-granite/granite-3.3-8b-instruct` | 1 | 62.6 | 436.4 | 1478.2 | 3500.8 | 15.91 | 107.7 | 105.5 | 372.1 | 20/20 |
+| `microsoft/phi-4` | 1 | 39.0 | 288.1 | 910.2 | 2184.5 | 25.58 | 93.4 | 158.4 | — | 17/20 |
+| `Qwen/Qwen2.5-14B-Instruct` | 1 | 37.6 | 256.1 | 852.0 | 2161.6 | 26.52 | 111.4 | 161.8 | 593.5 | 20/20 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | 1 | 37.8 | 273.1 | 910.2 | 2184.5 | 26.43 | 114.1 | 161.8 | 591.6 | 20/20 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | 2 | — | 469.4 | 1271.7 | 3300.8 | — | 188.6 | 190.1 | 245.8 | 19/20 |
+| `Qwen/Qwen3-32B` | 2 | — | 218.6 | 717.8 | 1456.4 | — | 130.0 | 260.7 | 952.9 | 19/20 |
 
 ## Failures
 
@@ -82,13 +69,20 @@ One row per model whose planned configs are all recorded and that has at least o
 | `Qwen/QwQ-32B-AWQ` | 20 | auto_awq quantization is not supported on NPU |
 | `Qwen/Qwen3-14B-AWQ` | 20 | auto_awq quantization is not supported on NPU |
 | `Qwen/Qwen3-14B-FP8` | 20 | engine init failed: aclnnInplaceCopy error 561103 |
-| `Qwen/Qwen3-30B-A3B` | 1 | first decode config timed out during startup; later 19 configs succeeded |
+| `Qwen/Qwen3-30B-A3B` | 1 | decode concurrency 1 timed out waiting for the server; the other 19 configs succeeded |
 | `hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4` | 20 | auto_awq quantization is not supported on NPU |
 | `openai/gpt-oss-20b` | 20 | gpt_oss_mxfp4 quantization is not supported on NPU |
+| `allenai/OLMo-2-1124-7B-Instruct` | 20 | max_model_len 4608 exceeds max_position_embeddings 4096 |
+| `01-ai/Yi-1.5-9B-Chat` | 20 | max_model_len 4608 exceeds max_position_embeddings 4096 |
+| `allenai/OLMo-2-1124-13B-Instruct` | 20 | max_model_len 4608 exceeds max_position_embeddings 4096 |
+| `microsoft/phi-4` | 3 | 4096-token prefill c1 ran out of NPU memory during warmup; c8 and c32 then started with 23.6 GiB free and failed init. c128 succeeded |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | 1 | decode concurrency 1 timed out waiting for the server; the other 19 configs succeeded |
+| `allenai/OLMo-2-0325-32B-Instruct` | 20 | max_model_len 4608 exceeds max_position_embeddings 4096 |
+| `Qwen/Qwen3-32B` | 1 | decode concurrency 1 timed out waiting for the server; the other 19 configs succeeded |
 
 ## All successful runs
 
-Each row is one finished `done` configuration, including configs of the model that is still in progress. TPOT is the median per-request mean time per output token. Throughput excludes the drain window.
+Each row is one finished `done` configuration. TPOT is the median per-request mean time per output token. Throughput excludes the drain window.
 
 | Model | Study | TP | Prompt | Output | Clients | TTFT median ms | TPOT median ms | Tokens/s | Completed reqs |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -103,15 +97,15 @@ Each row is one finished `done` configuration, including configs of the model th
 | `Qwen/QwQ-32B` | prefill | 2 | 256 | 32 | 1 | 139.1 | 33.77 | 26.9 | 76 |
 | `Qwen/QwQ-32B` | prefill | 2 | 256 | 32 | 8 | 442.7 | 41.24 | 148.3 | 424 |
 | `Qwen/QwQ-32B` | prefill | 2 | 256 | 32 | 32 | 1172.6 | 62.98 | 318.3 | 911 |
-| `Qwen/QwQ-32B` | prefill | 2 | 256 | 32 | 128 | 3763.3 | 177.0 | 446.9 | 1285 |
+| `Qwen/QwQ-32B` | prefill | 2 | 256 | 32 | 128 | 3763.3 | 177.03 | 446.9 | 1285 |
 | `Qwen/QwQ-32B` | prefill | 2 | 1024 | 32 | 1 | 261.6 | 33.22 | 24.7 | 70 |
 | `Qwen/QwQ-32B` | prefill | 2 | 1024 | 32 | 8 | 1612.9 | 44.62 | 85.3 | 246 |
-| `Qwen/QwQ-32B` | prefill | 2 | 1024 | 32 | 32 | 3563.0 | 151.4 | 114.4 | 352 |
-| `Qwen/QwQ-32B` | prefill | 2 | 1024 | 32 | 128 | 5325.0 | 784.3 | 119.8 | 384 |
+| `Qwen/QwQ-32B` | prefill | 2 | 1024 | 32 | 32 | 3563.0 | 151.39 | 114.4 | 352 |
+| `Qwen/QwQ-32B` | prefill | 2 | 1024 | 32 | 128 | 5325.0 | 784.34 | 119.8 | 384 |
 | `Qwen/QwQ-32B` | prefill | 2 | 4096 | 32 | 1 | 928.6 | 34.30 | 16.0 | 46 |
-| `Qwen/QwQ-32B` | prefill | 2 | 4096 | 32 | 8 | 2795.0 | 156.2 | 28.6 | 88 |
-| `Qwen/QwQ-32B` | prefill | 2 | 4096 | 32 | 32 | 7253.8 | 771.4 | 27.3 | 96 |
-| `Qwen/QwQ-32B` | prefill | 2 | 4096 | 32 | 128 | 34901.7 | 1004.9 | 25.5 | 73 |
+| `Qwen/QwQ-32B` | prefill | 2 | 4096 | 32 | 8 | 2795.0 | 156.19 | 28.6 | 88 |
+| `Qwen/QwQ-32B` | prefill | 2 | 4096 | 32 | 32 | 7253.8 | 771.43 | 27.3 | 96 |
+| `Qwen/QwQ-32B` | prefill | 2 | 4096 | 32 | 128 | 34901.7 | 1004.92 | 25.5 | 73 |
 | `Qwen/Qwen2.5-0.5B-Instruct` | decode | 1 | 32 | 512 | 1 | 38.5 | 9.93 | 100.4 | 18 |
 | `Qwen/Qwen2.5-0.5B-Instruct` | decode | 1 | 32 | 512 | 2 | 59.2 | 9.97 | 198.3 | 36 |
 | `Qwen/Qwen2.5-0.5B-Instruct` | decode | 1 | 32 | 512 | 4 | 66.6 | 10.34 | 351.9 | 64 |
@@ -151,7 +145,7 @@ Each row is one finished `done` configuration, including configs of the model th
 | `Qwen/Qwen3-1.7B` | prefill | 1 | 4096 | 32 | 1 | 93.7 | 9.83 | 79.3 | 224 |
 | `Qwen/Qwen3-1.7B` | prefill | 1 | 4096 | 32 | 8 | 254.5 | 23.46 | 261.7 | 743 |
 | `Qwen/Qwen3-1.7B` | prefill | 1 | 4096 | 32 | 32 | 456.6 | 89.81 | 310.1 | 890 |
-| `Qwen/Qwen3-1.7B` | prefill | 1 | 4096 | 32 | 128 | 6451.6 | 193.9 | 316.1 | 986 |
+| `Qwen/Qwen3-1.7B` | prefill | 1 | 4096 | 32 | 128 | 6451.6 | 193.87 | 316.1 | 986 |
 | `Qwen/Qwen3-14B` | decode | 1 | 32 | 512 | 1 | 55.3 | 25.77 | 38.7 | 7 |
 | `Qwen/Qwen3-14B` | decode | 1 | 32 | 512 | 2 | 83.4 | 25.79 | 77.2 | 14 |
 | `Qwen/Qwen3-14B` | decode | 1 | 32 | 512 | 4 | 75.6 | 26.31 | 151.3 | 28 |
@@ -163,15 +157,15 @@ Each row is one finished `done` configuration, including configs of the model th
 | `Qwen/Qwen3-14B` | prefill | 1 | 256 | 32 | 1 | 82.7 | 25.46 | 36.6 | 103 |
 | `Qwen/Qwen3-14B` | prefill | 1 | 256 | 32 | 8 | 312.8 | 27.16 | 221.1 | 624 |
 | `Qwen/Qwen3-14B` | prefill | 1 | 256 | 32 | 32 | 950.0 | 36.62 | 489.3 | 1408 |
-| `Qwen/Qwen3-14B` | prefill | 1 | 256 | 32 | 128 | 2369.1 | 109.9 | 692.1 | 2048 |
+| `Qwen/Qwen3-14B` | prefill | 1 | 256 | 32 | 128 | 2369.1 | 109.87 | 692.1 | 2048 |
 | `Qwen/Qwen3-14B` | prefill | 1 | 1024 | 32 | 1 | 156.3 | 25.78 | 33.4 | 95 |
 | `Qwen/Qwen3-14B` | prefill | 1 | 1024 | 32 | 8 | 1111.3 | 28.66 | 128.0 | 368 |
 | `Qwen/Qwen3-14B` | prefill | 1 | 1024 | 32 | 32 | 2357.2 | 99.89 | 182.3 | 544 |
-| `Qwen/Qwen3-14B` | prefill | 1 | 1024 | 32 | 128 | 3371.1 | 507.7 | 188.4 | 628 |
+| `Qwen/Qwen3-14B` | prefill | 1 | 1024 | 32 | 128 | 3371.1 | 507.68 | 188.4 | 628 |
 | `Qwen/Qwen3-14B` | prefill | 1 | 4096 | 32 | 1 | 587.2 | 26.65 | 22.6 | 64 |
-| `Qwen/Qwen3-14B` | prefill | 1 | 4096 | 32 | 8 | 1794.8 | 124.8 | 44.1 | 128 |
-| `Qwen/Qwen3-14B` | prefill | 1 | 4096 | 32 | 32 | 3677.6 | 515.8 | 45.8 | 149 |
-| `Qwen/Qwen3-14B` | prefill | 1 | 4096 | 32 | 128 | 39647.7 | 649.4 | 42.4 | 123 |
+| `Qwen/Qwen3-14B` | prefill | 1 | 4096 | 32 | 8 | 1794.8 | 124.84 | 44.1 | 128 |
+| `Qwen/Qwen3-14B` | prefill | 1 | 4096 | 32 | 32 | 3677.6 | 515.77 | 45.8 | 149 |
+| `Qwen/Qwen3-14B` | prefill | 1 | 4096 | 32 | 128 | 39647.7 | 649.40 | 42.4 | 123 |
 | `Qwen/Qwen3-30B-A3B` | decode | 2 | 32 | 512 | 2 | 81.1 | 15.45 | 127.6 | 24 |
 | `Qwen/Qwen3-30B-A3B` | decode | 2 | 32 | 512 | 4 | 88.2 | 14.73 | 267.5 | 48 |
 | `Qwen/Qwen3-30B-A3B` | decode | 2 | 32 | 512 | 8 | 92.2 | 17.00 | 464.7 | 88 |
@@ -186,11 +180,11 @@ Each row is one finished `done` configuration, including configs of the model th
 | `Qwen/Qwen3-30B-A3B` | prefill | 2 | 1024 | 32 | 1 | 186.9 | 15.72 | 47.2 | 133 |
 | `Qwen/Qwen3-30B-A3B` | prefill | 2 | 1024 | 32 | 8 | 505.6 | 20.66 | 232.4 | 656 |
 | `Qwen/Qwen3-30B-A3B` | prefill | 2 | 1024 | 32 | 32 | 793.6 | 52.48 | 420.0 | 1189 |
-| `Qwen/Qwen3-30B-A3B` | prefill | 2 | 1024 | 32 | 128 | 1257.0 | 199.8 | 511.6 | 1536 |
+| `Qwen/Qwen3-30B-A3B` | prefill | 2 | 1024 | 32 | 128 | 1257.0 | 199.78 | 511.6 | 1536 |
 | `Qwen/Qwen3-30B-A3B` | prefill | 2 | 4096 | 32 | 1 | 245.8 | 14.20 | 46.4 | 131 |
 | `Qwen/Qwen3-30B-A3B` | prefill | 2 | 4096 | 32 | 8 | 690.9 | 51.99 | 110.9 | 318 |
-| `Qwen/Qwen3-30B-A3B` | prefill | 2 | 4096 | 32 | 32 | 1325.6 | 197.1 | 127.3 | 383 |
-| `Qwen/Qwen3-30B-A3B` | prefill | 2 | 4096 | 32 | 128 | 15083.4 | 456.1 | 126.6 | 372 |
+| `Qwen/Qwen3-30B-A3B` | prefill | 2 | 4096 | 32 | 32 | 1325.6 | 197.15 | 127.3 | 383 |
+| `Qwen/Qwen3-30B-A3B` | prefill | 2 | 4096 | 32 | 128 | 15083.4 | 456.06 | 126.6 | 372 |
 | `Qwen/Qwen3-4B` | decode | 1 | 32 | 512 | 1 | 44.6 | 11.92 | 84.0 | 15 |
 | `Qwen/Qwen3-4B` | decode | 1 | 32 | 512 | 2 | 70.9 | 12.69 | 156.1 | 28 |
 | `Qwen/Qwen3-4B` | decode | 1 | 32 | 512 | 4 | 78.1 | 12.59 | 314.1 | 56 |
@@ -206,11 +200,11 @@ Each row is one finished `done` configuration, including configs of the model th
 | `Qwen/Qwen3-4B` | prefill | 1 | 1024 | 32 | 1 | 99.1 | 12.53 | 65.8 | 186 |
 | `Qwen/Qwen3-4B` | prefill | 1 | 1024 | 32 | 8 | 387.9 | 12.12 | 335.1 | 944 |
 | `Qwen/Qwen3-4B` | prefill | 1 | 1024 | 32 | 32 | 733.2 | 37.08 | 538.8 | 1536 |
-| `Qwen/Qwen3-4B` | prefill | 1 | 1024 | 32 | 128 | 1072.1 | 175.6 | 599.9 | 1788 |
+| `Qwen/Qwen3-4B` | prefill | 1 | 1024 | 32 | 128 | 1072.1 | 175.63 | 599.9 | 1788 |
 | `Qwen/Qwen3-4B` | prefill | 1 | 4096 | 32 | 1 | 205.5 | 11.54 | 56.8 | 160 |
 | `Qwen/Qwen3-4B` | prefill | 1 | 4096 | 32 | 8 | 618.7 | 47.07 | 122.4 | 351 |
-| `Qwen/Qwen3-4B` | prefill | 1 | 4096 | 32 | 32 | 1254.0 | 186.2 | 137.6 | 407 |
-| `Qwen/Qwen3-4B` | prefill | 1 | 4096 | 32 | 128 | 14329.2 | 433.4 | 135.4 | 398 |
+| `Qwen/Qwen3-4B` | prefill | 1 | 4096 | 32 | 32 | 1254.0 | 186.19 | 137.6 | 407 |
+| `Qwen/Qwen3-4B` | prefill | 1 | 4096 | 32 | 128 | 14329.2 | 433.40 | 135.4 | 398 |
 | `Qwen/Qwen3-8B` | decode | 1 | 32 | 512 | 1 | 44.7 | 14.90 | 66.8 | 12 |
 | `Qwen/Qwen3-8B` | decode | 1 | 32 | 512 | 2 | 73.0 | 14.99 | 132.3 | 24 |
 | `Qwen/Qwen3-8B` | decode | 1 | 32 | 512 | 4 | 67.2 | 15.49 | 256.4 | 48 |
@@ -226,11 +220,11 @@ Each row is one finished `done` configuration, including configs of the model th
 | `Qwen/Qwen3-8B` | prefill | 1 | 1024 | 32 | 1 | 96.1 | 14.82 | 57.5 | 162 |
 | `Qwen/Qwen3-8B` | prefill | 1 | 1024 | 32 | 8 | 594.5 | 17.41 | 224.7 | 640 |
 | `Qwen/Qwen3-8B` | prefill | 1 | 1024 | 32 | 32 | 1255.1 | 56.40 | 339.3 | 960 |
-| `Qwen/Qwen3-8B` | prefill | 1 | 1024 | 32 | 128 | 1782.1 | 280.2 | 367.7 | 1121 |
+| `Qwen/Qwen3-8B` | prefill | 1 | 1024 | 32 | 128 | 1782.1 | 280.20 | 367.7 | 1121 |
 | `Qwen/Qwen3-8B` | prefill | 1 | 4096 | 32 | 1 | 325.4 | 15.68 | 39.4 | 111 |
 | `Qwen/Qwen3-8B` | prefill | 1 | 4096 | 32 | 8 | 987.4 | 71.80 | 79.5 | 227 |
-| `Qwen/Qwen3-8B` | prefill | 1 | 4096 | 32 | 32 | 1974.0 | 287.9 | 88.0 | 260 |
-| `Qwen/Qwen3-8B` | prefill | 1 | 4096 | 32 | 128 | 24325.7 | 615.0 | 82.0 | 238 |
+| `Qwen/Qwen3-8B` | prefill | 1 | 4096 | 32 | 32 | 1974.0 | 287.93 | 88.0 | 260 |
+| `Qwen/Qwen3-8B` | prefill | 1 | 4096 | 32 | 128 | 24325.7 | 615.00 | 82.0 | 238 |
 | `RedHatAI/Llama-3.2-1B-Instruct-quantized.w8a8` | decode | 1 | 32 | 512 | 1 | 31.3 | 8.50 | 116.1 | 21 |
 | `RedHatAI/Llama-3.2-1B-Instruct-quantized.w8a8` | decode | 1 | 32 | 512 | 2 | 48.4 | 8.56 | 231.6 | 42 |
 | `RedHatAI/Llama-3.2-1B-Instruct-quantized.w8a8` | decode | 1 | 32 | 512 | 4 | 53.0 | 8.64 | 456.3 | 84 |
@@ -250,7 +244,7 @@ Each row is one finished `done` configuration, including configs of the model th
 | `RedHatAI/Llama-3.2-1B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 1 | 71.5 | 7.75 | 101.4 | 286 |
 | `RedHatAI/Llama-3.2-1B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 8 | 151.6 | 17.51 | 367.1 | 1040 |
 | `RedHatAI/Llama-3.2-1B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 32 | 198.6 | 60.88 | 483.4 | 1376 |
-| `RedHatAI/Llama-3.2-1B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 128 | 4147.9 | 124.8 | 495.3 | 1490 |
+| `RedHatAI/Llama-3.2-1B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 128 | 4147.9 | 124.82 | 495.3 | 1490 |
 | `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | decode | 1 | 32 | 512 | 1 | 40.2 | 10.30 | 97.2 | 18 |
 | `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | decode | 1 | 32 | 512 | 2 | 61.4 | 10.15 | 193.4 | 34 |
 | `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | decode | 1 | 32 | 512 | 4 | 67.5 | 10.62 | 374.3 | 68 |
@@ -266,11 +260,11 @@ Each row is one finished `done` configuration, including configs of the model th
 | `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | prefill | 1 | 1024 | 32 | 1 | 84.5 | 9.88 | 81.8 | 231 |
 | `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | prefill | 1 | 1024 | 32 | 8 | 249.9 | 10.24 | 451.3 | 1272 |
 | `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | prefill | 1 | 1024 | 32 | 32 | 404.3 | 26.18 | 839.9 | 2368 |
-| `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | prefill | 1 | 1024 | 32 | 128 | 565.3 | 107.8 | 1034.7 | 2959 |
+| `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | prefill | 1 | 1024 | 32 | 128 | 565.3 | 107.76 | 1034.7 | 2959 |
 | `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 1 | 124.0 | 9.46 | 76.1 | 215 |
 | `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 8 | 331.5 | 29.47 | 204.7 | 580 |
-| `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 32 | 674.6 | 110.1 | 242.9 | 704 |
-| `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 128 | 8140.1 | 245.3 | 247.6 | 794 |
+| `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 32 | 674.6 | 110.10 | 242.9 | 704 |
+| `RedHatAI/Llama-3.2-3B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 128 | 8140.1 | 245.30 | 247.6 | 794 |
 | `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | decode | 1 | 32 | 512 | 1 | 49.4 | 11.23 | 88.8 | 16 |
 | `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | decode | 1 | 32 | 512 | 2 | 72.9 | 11.38 | 173.6 | 32 |
 | `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | decode | 1 | 32 | 512 | 4 | 71.8 | 11.84 | 333.1 | 60 |
@@ -286,11 +280,11 @@ Each row is one finished `done` configuration, including configs of the model th
 | `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | prefill | 1 | 1024 | 32 | 1 | 93.5 | 10.43 | 76.1 | 215 |
 | `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | prefill | 1 | 1024 | 32 | 8 | 411.3 | 14.10 | 301.4 | 849 |
 | `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | prefill | 1 | 1024 | 32 | 32 | 793.8 | 41.07 | 489.5 | 1408 |
-| `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | prefill | 1 | 1024 | 32 | 128 | 1167.1 | 188.8 | 554.4 | 1661 |
+| `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | prefill | 1 | 1024 | 32 | 128 | 1167.1 | 188.78 | 554.4 | 1661 |
 | `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 1 | 222.3 | 11.18 | 56.1 | 158 |
 | `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 8 | 631.4 | 49.41 | 116.9 | 336 |
-| `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 32 | 1277.7 | 192.1 | 134.4 | 392 |
-| `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 128 | 14803.3 | 446.5 | 130.2 | 382 |
+| `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 32 | 1277.7 | 192.15 | 134.4 | 392 |
+| `RedHatAI/Meta-Llama-3.1-8B-Instruct-quantized.w8a8` | prefill | 1 | 4096 | 32 | 128 | 14803.3 | 446.52 | 130.2 | 382 |
 | `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | decode | 1 | 32 | 512 | 1 | 49.0 | 11.51 | 86.5 | 16 |
 | `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | decode | 1 | 32 | 512 | 2 | 72.2 | 11.39 | 172.6 | 32 |
 | `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | decode | 1 | 32 | 512 | 4 | 71.4 | 11.82 | 333.9 | 60 |
@@ -306,11 +300,11 @@ Each row is one finished `done` configuration, including configs of the model th
 | `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | prefill | 1 | 1024 | 32 | 1 | 98.4 | 10.82 | 73.7 | 208 |
 | `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | prefill | 1 | 1024 | 32 | 8 | 408.6 | 14.00 | 302.9 | 856 |
 | `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | prefill | 1 | 1024 | 32 | 32 | 794.1 | 41.40 | 489.3 | 1405 |
-| `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | prefill | 1 | 1024 | 32 | 128 | 1166.6 | 188.7 | 554.9 | 1664 |
+| `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | prefill | 1 | 1024 | 32 | 128 | 1166.6 | 188.67 | 554.9 | 1664 |
 | `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | prefill | 1 | 4096 | 32 | 1 | 222.1 | 11.23 | 55.9 | 158 |
 | `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | prefill | 1 | 4096 | 32 | 8 | 631.3 | 49.42 | 116.8 | 336 |
-| `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | prefill | 1 | 4096 | 32 | 32 | 1276.1 | 192.1 | 134.4 | 392 |
-| `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | prefill | 1 | 4096 | 32 | 128 | 14799.5 | 446.2 | 130.2 | 382 |
+| `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | prefill | 1 | 4096 | 32 | 32 | 1276.1 | 192.05 | 134.4 | 392 |
+| `RedHatAI/Meta-Llama-3.1-8B-quantized.w8a8` | prefill | 1 | 4096 | 32 | 128 | 14799.5 | 446.22 | 130.2 | 382 |
 | `RedHatAI/QwQ-32B-quantized.w8a8` | decode | 1 | 32 | 512 | 1 | 68.1 | 28.79 | 34.1 | 6 |
 | `RedHatAI/QwQ-32B-quantized.w8a8` | decode | 1 | 32 | 512 | 2 | 120.4 | 29.29 | 67.9 | 12 |
 | `RedHatAI/QwQ-32B-quantized.w8a8` | decode | 1 | 32 | 512 | 4 | 104.4 | 30.35 | 131.1 | 24 |
@@ -322,15 +316,15 @@ Each row is one finished `done` configuration, including configs of the model th
 | `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 256 | 32 | 1 | 130.0 | 28.54 | 31.5 | 89 |
 | `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 256 | 32 | 8 | 423.9 | 31.74 | 181.4 | 512 |
 | `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 256 | 32 | 32 | 1421.0 | 37.21 | 396.1 | 1120 |
-| `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 256 | 32 | 128 | 2981.4 | 141.5 | 547.2 | 1664 |
+| `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 256 | 32 | 128 | 2981.4 | 141.49 | 547.2 | 1664 |
 | `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 1024 | 32 | 1 | 188.4 | 28.86 | 29.5 | 84 |
 | `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 1024 | 32 | 8 | 1396.8 | 33.82 | 103.9 | 296 |
-| `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 1024 | 32 | 32 | 3002.8 | 125.7 | 147.8 | 438 |
-| `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 1024 | 32 | 128 | 15712.1 | 325.8 | 151.8 | 448 |
+| `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 1024 | 32 | 32 | 3002.8 | 125.73 | 147.8 | 438 |
+| `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 1024 | 32 | 128 | 15712.1 | 325.79 | 151.8 | 448 |
 | `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 4096 | 32 | 1 | 769.3 | 30.32 | 18.6 | 53 |
-| `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 4096 | 32 | 8 | 2305.2 | 159.5 | 34.2 | 102 |
-| `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 4096 | 32 | 32 | 16564.8 | 339.2 | 36.0 | 103 |
-| `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 4096 | 32 | 128 | 42790.5 | 339.5 | 35.9 | 102 |
+| `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 4096 | 32 | 8 | 2305.2 | 159.46 | 34.2 | 102 |
+| `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 4096 | 32 | 32 | 16564.8 | 339.24 | 36.0 | 103 |
+| `RedHatAI/QwQ-32B-quantized.w8a8` | prefill | 1 | 4096 | 32 | 128 | 42790.5 | 339.49 | 35.9 | 102 |
 | `ibm-granite/granite-3.2-2b-instruct` | decode | 1 | 32 | 512 | 1 | 53.0 | 13.94 | 71.6 | 13 |
 | `ibm-granite/granite-3.2-2b-instruct` | decode | 1 | 32 | 512 | 2 | 84.6 | 13.31 | 148.5 | 28 |
 | `ibm-granite/granite-3.2-2b-instruct` | decode | 1 | 32 | 512 | 4 | 81.3 | 12.03 | 327.3 | 60 |
@@ -346,11 +340,11 @@ Each row is one finished `done` configuration, including configs of the model th
 | `ibm-granite/granite-3.2-2b-instruct` | prefill | 1 | 1024 | 32 | 1 | 108.6 | 12.21 | 65.7 | 185 |
 | `ibm-granite/granite-3.2-2b-instruct` | prefill | 1 | 1024 | 32 | 8 | 339.1 | 12.11 | 355.6 | 1008 |
 | `ibm-granite/granite-3.2-2b-instruct` | prefill | 1 | 1024 | 32 | 32 | 570.3 | 32.97 | 637.7 | 1824 |
-| `ibm-granite/granite-3.2-2b-instruct` | prefill | 1 | 1024 | 32 | 128 | 818.1 | 147.0 | 735.2 | 2161 |
+| `ibm-granite/granite-3.2-2b-instruct` | prefill | 1 | 1024 | 32 | 128 | 818.1 | 147.00 | 735.2 | 2161 |
 | `ibm-granite/granite-3.2-2b-instruct` | prefill | 1 | 4096 | 32 | 1 | 169.3 | 11.42 | 61.0 | 172 |
 | `ibm-granite/granite-3.2-2b-instruct` | prefill | 1 | 4096 | 32 | 8 | 472.5 | 38.02 | 153.7 | 439 |
-| `ibm-granite/granite-3.2-2b-instruct` | prefill | 1 | 4096 | 32 | 32 | 977.8 | 151.0 | 171.8 | 502 |
-| `ibm-granite/granite-3.2-2b-instruct` | prefill | 1 | 4096 | 32 | 128 | 11738.9 | 354.5 | 168.4 | 499 |
+| `ibm-granite/granite-3.2-2b-instruct` | prefill | 1 | 4096 | 32 | 32 | 977.8 | 151.04 | 171.8 | 502 |
+| `ibm-granite/granite-3.2-2b-instruct` | prefill | 1 | 4096 | 32 | 128 | 11738.9 | 354.48 | 168.4 | 499 |
 | `meta-llama/Llama-3.1-8B` | decode | 1 | 32 | 512 | 1 | 41.1 | 16.30 | 61.2 | 11 |
 | `meta-llama/Llama-3.1-8B` | decode | 1 | 32 | 512 | 2 | 70.7 | 17.10 | 116.1 | 22 |
 | `meta-llama/Llama-3.1-8B` | decode | 1 | 32 | 512 | 4 | 64.3 | 17.63 | 225.7 | 40 |
@@ -366,11 +360,11 @@ Each row is one finished `done` configuration, including configs of the model th
 | `meta-llama/Llama-3.1-8B` | prefill | 1 | 1024 | 32 | 1 | 99.8 | 16.33 | 52.7 | 149 |
 | `meta-llama/Llama-3.1-8B` | prefill | 1 | 1024 | 32 | 8 | 607.9 | 19.84 | 208.0 | 592 |
 | `meta-llama/Llama-3.1-8B` | prefill | 1 | 1024 | 32 | 32 | 1275.3 | 59.36 | 323.7 | 928 |
-| `meta-llama/Llama-3.1-8B` | prefill | 1 | 1024 | 32 | 128 | 1829.5 | 286.2 | 363.9 | 1097 |
+| `meta-llama/Llama-3.1-8B` | prefill | 1 | 1024 | 32 | 128 | 1829.5 | 286.23 | 363.9 | 1097 |
 | `meta-llama/Llama-3.1-8B` | prefill | 1 | 4096 | 32 | 1 | 330.4 | 16.99 | 37.3 | 105 |
 | `meta-llama/Llama-3.1-8B` | prefill | 1 | 4096 | 32 | 8 | 976.1 | 73.13 | 77.1 | 224 |
-| `meta-llama/Llama-3.1-8B` | prefill | 1 | 4096 | 32 | 32 | 1981.0 | 288.5 | 88.0 | 260 |
-| `meta-llama/Llama-3.1-8B` | prefill | 1 | 4096 | 32 | 128 | 22315.9 | 675.2 | 80.2 | 233 |
+| `meta-llama/Llama-3.1-8B` | prefill | 1 | 4096 | 32 | 32 | 1981.0 | 288.45 | 88.0 | 260 |
+| `meta-llama/Llama-3.1-8B` | prefill | 1 | 4096 | 32 | 128 | 22315.9 | 675.19 | 80.2 | 233 |
 | `meta-llama/Llama-3.1-8B-Instruct` | decode | 1 | 32 | 512 | 1 | 42.1 | 16.24 | 61.3 | 11 |
 | `meta-llama/Llama-3.1-8B-Instruct` | decode | 1 | 32 | 512 | 2 | 69.7 | 17.14 | 116.0 | 22 |
 | `meta-llama/Llama-3.1-8B-Instruct` | decode | 1 | 32 | 512 | 4 | 67.8 | 17.54 | 226.6 | 40 |
@@ -386,11 +380,11 @@ Each row is one finished `done` configuration, including configs of the model th
 | `meta-llama/Llama-3.1-8B-Instruct` | prefill | 1 | 1024 | 32 | 1 | 98.4 | 16.31 | 52.9 | 149 |
 | `meta-llama/Llama-3.1-8B-Instruct` | prefill | 1 | 1024 | 32 | 8 | 608.6 | 19.89 | 207.7 | 592 |
 | `meta-llama/Llama-3.1-8B-Instruct` | prefill | 1 | 1024 | 32 | 32 | 1278.7 | 59.27 | 325.5 | 928 |
-| `meta-llama/Llama-3.1-8B-Instruct` | prefill | 1 | 1024 | 32 | 128 | 1825.6 | 286.3 | 363.9 | 1097 |
+| `meta-llama/Llama-3.1-8B-Instruct` | prefill | 1 | 1024 | 32 | 128 | 1825.6 | 286.29 | 363.9 | 1097 |
 | `meta-llama/Llama-3.1-8B-Instruct` | prefill | 1 | 4096 | 32 | 1 | 330.3 | 16.98 | 37.3 | 105 |
 | `meta-llama/Llama-3.1-8B-Instruct` | prefill | 1 | 4096 | 32 | 8 | 976.1 | 72.88 | 77.1 | 224 |
-| `meta-llama/Llama-3.1-8B-Instruct` | prefill | 1 | 4096 | 32 | 32 | 1975.9 | 287.7 | 88.0 | 260 |
-| `meta-llama/Llama-3.1-8B-Instruct` | prefill | 1 | 4096 | 32 | 128 | 22257.5 | 673.6 | 80.2 | 233 |
+| `meta-llama/Llama-3.1-8B-Instruct` | prefill | 1 | 4096 | 32 | 32 | 1975.9 | 287.74 | 88.0 | 260 |
+| `meta-llama/Llama-3.1-8B-Instruct` | prefill | 1 | 4096 | 32 | 128 | 22257.5 | 673.58 | 80.2 | 233 |
 | `meta-llama/Llama-3.2-1B` | decode | 1 | 32 | 512 | 1 | 30.6 | 8.28 | 119.2 | 21 |
 | `meta-llama/Llama-3.2-1B` | decode | 1 | 32 | 512 | 2 | 46.7 | 8.19 | 239.6 | 44 |
 | `meta-llama/Llama-3.2-1B` | decode | 1 | 32 | 512 | 4 | 51.4 | 8.50 | 462.7 | 84 |
@@ -410,7 +404,7 @@ Each row is one finished `done` configuration, including configs of the model th
 | `meta-llama/Llama-3.2-1B` | prefill | 1 | 4096 | 32 | 1 | 81.4 | 8.04 | 96.5 | 272 |
 | `meta-llama/Llama-3.2-1B` | prefill | 1 | 4096 | 32 | 8 | 198.4 | 17.97 | 336.0 | 952 |
 | `meta-llama/Llama-3.2-1B` | prefill | 1 | 4096 | 32 | 32 | 287.2 | 69.03 | 415.4 | 1184 |
-| `meta-llama/Llama-3.2-1B` | prefill | 1 | 4096 | 32 | 128 | 4856.1 | 146.2 | 421.3 | 1282 |
+| `meta-llama/Llama-3.2-1B` | prefill | 1 | 4096 | 32 | 128 | 4856.1 | 146.19 | 421.3 | 1282 |
 | `meta-llama/Llama-3.2-1B-Instruct` | decode | 1 | 32 | 512 | 1 | 29.9 | 7.98 | 124.4 | 22 |
 | `meta-llama/Llama-3.2-1B-Instruct` | decode | 1 | 32 | 512 | 2 | 48.3 | 8.53 | 232.0 | 42 |
 | `meta-llama/Llama-3.2-1B-Instruct` | decode | 1 | 32 | 512 | 4 | 50.1 | 8.20 | 475.8 | 84 |
@@ -430,7 +424,7 @@ Each row is one finished `done` configuration, including configs of the model th
 | `meta-llama/Llama-3.2-1B-Instruct` | prefill | 1 | 4096 | 32 | 1 | 81.2 | 7.84 | 98.0 | 276 |
 | `meta-llama/Llama-3.2-1B-Instruct` | prefill | 1 | 4096 | 32 | 8 | 198.1 | 18.51 | 330.2 | 936 |
 | `meta-llama/Llama-3.2-1B-Instruct` | prefill | 1 | 4096 | 32 | 32 | 229.6 | 70.90 | 415.0 | 1184 |
-| `meta-llama/Llama-3.2-1B-Instruct` | prefill | 1 | 4096 | 32 | 128 | 4861.5 | 146.3 | 421.3 | 1282 |
+| `meta-llama/Llama-3.2-1B-Instruct` | prefill | 1 | 4096 | 32 | 128 | 4861.5 | 146.33 | 421.3 | 1282 |
 | `meta-llama/Llama-3.2-3B-Instruct` | decode | 1 | 32 | 512 | 1 | 39.5 | 10.03 | 98.5 | 18 |
 | `meta-llama/Llama-3.2-3B-Instruct` | decode | 1 | 32 | 512 | 2 | 62.9 | 10.61 | 186.2 | 34 |
 | `meta-llama/Llama-3.2-3B-Instruct` | decode | 1 | 32 | 512 | 4 | 66.7 | 11.09 | 357.7 | 64 |
@@ -446,11 +440,11 @@ Each row is one finished `done` configuration, including configs of the model th
 | `meta-llama/Llama-3.2-3B-Instruct` | prefill | 1 | 1024 | 32 | 1 | 85.0 | 9.90 | 80.8 | 228 |
 | `meta-llama/Llama-3.2-3B-Instruct` | prefill | 1 | 1024 | 32 | 8 | 302.8 | 11.61 | 385.3 | 1088 |
 | `meta-llama/Llama-3.2-3B-Instruct` | prefill | 1 | 1024 | 32 | 32 | 564.1 | 31.94 | 651.9 | 1856 |
-| `meta-llama/Llama-3.2-3B-Instruct` | prefill | 1 | 1024 | 32 | 128 | 782.5 | 139.7 | 776.9 | 2268 |
+| `meta-llama/Llama-3.2-3B-Instruct` | prefill | 1 | 1024 | 32 | 128 | 782.5 | 139.74 | 776.9 | 2268 |
 | `meta-llama/Llama-3.2-3B-Instruct` | prefill | 1 | 4096 | 32 | 1 | 163.2 | 9.95 | 67.7 | 191 |
 | `meta-llama/Llama-3.2-3B-Instruct` | prefill | 1 | 4096 | 32 | 8 | 456.7 | 37.62 | 156.5 | 447 |
-| `meta-llama/Llama-3.2-3B-Instruct` | prefill | 1 | 4096 | 32 | 32 | 913.7 | 141.2 | 184.1 | 539 |
-| `meta-llama/Llama-3.2-3B-Instruct` | prefill | 1 | 4096 | 32 | 128 | 10680.6 | 321.6 | 186.3 | 555 |
+| `meta-llama/Llama-3.2-3B-Instruct` | prefill | 1 | 4096 | 32 | 32 | 913.7 | 141.22 | 184.1 | 539 |
+| `meta-llama/Llama-3.2-3B-Instruct` | prefill | 1 | 4096 | 32 | 128 | 10680.6 | 321.62 | 186.3 | 555 |
 | `microsoft/Phi-4-reasoning` | decode | 1 | 32 | 512 | 1 | 50.6 | 25.45 | 39.2 | 7 |
 | `microsoft/Phi-4-reasoning` | decode | 1 | 32 | 512 | 2 | 87.2 | 25.83 | 77.1 | 14 |
 | `microsoft/Phi-4-reasoning` | decode | 1 | 32 | 512 | 4 | 77.9 | 26.26 | 151.7 | 28 |
@@ -462,15 +456,15 @@ Each row is one finished `done` configuration, including configs of the model th
 | `microsoft/Phi-4-reasoning` | prefill | 1 | 256 | 32 | 1 | 97.7 | 25.22 | 36.3 | 103 |
 | `microsoft/Phi-4-reasoning` | prefill | 1 | 256 | 32 | 8 | 330.7 | 27.40 | 216.2 | 616 |
 | `microsoft/Phi-4-reasoning` | prefill | 1 | 256 | 32 | 32 | 1127.9 | 33.12 | 467.9 | 1344 |
-| `microsoft/Phi-4-reasoning` | prefill | 1 | 256 | 32 | 128 | 2545.8 | 108.4 | 682.9 | 2038 |
+| `microsoft/Phi-4-reasoning` | prefill | 1 | 256 | 32 | 128 | 2545.8 | 108.36 | 682.9 | 2038 |
 | `microsoft/Phi-4-reasoning` | prefill | 1 | 1024 | 32 | 1 | 159.0 | 25.82 | 33.3 | 94 |
 | `microsoft/Phi-4-reasoning` | prefill | 1 | 1024 | 32 | 8 | 1129.2 | 29.09 | 125.2 | 360 |
-| `microsoft/Phi-4-reasoning` | prefill | 1 | 1024 | 32 | 32 | 2412.6 | 103.6 | 181.7 | 527 |
-| `microsoft/Phi-4-reasoning` | prefill | 1 | 1024 | 32 | 128 | 5698.4 | 457.8 | 188.8 | 616 |
+| `microsoft/Phi-4-reasoning` | prefill | 1 | 1024 | 32 | 32 | 2412.6 | 103.63 | 181.7 | 527 |
+| `microsoft/Phi-4-reasoning` | prefill | 1 | 1024 | 32 | 128 | 5698.4 | 457.85 | 188.8 | 616 |
 | `microsoft/Phi-4-reasoning` | prefill | 1 | 4096 | 32 | 1 | 598.9 | 27.04 | 22.2 | 63 |
-| `microsoft/Phi-4-reasoning` | prefill | 1 | 4096 | 32 | 8 | 1858.5 | 129.1 | 42.8 | 127 |
-| `microsoft/Phi-4-reasoning` | prefill | 1 | 4096 | 32 | 32 | 4852.5 | 524.5 | 41.8 | 144 |
-| `microsoft/Phi-4-reasoning` | prefill | 1 | 4096 | 32 | 128 | 42148.8 | 525.6 | 41.1 | 124 |
+| `microsoft/Phi-4-reasoning` | prefill | 1 | 4096 | 32 | 8 | 1858.5 | 129.06 | 42.8 | 127 |
+| `microsoft/Phi-4-reasoning` | prefill | 1 | 4096 | 32 | 32 | 4852.5 | 524.50 | 41.8 | 144 |
+| `microsoft/Phi-4-reasoning` | prefill | 1 | 4096 | 32 | 128 | 42148.8 | 525.60 | 41.1 | 124 |
 | `zai-org/glm-4-9b-hf` | decode | 1 | 32 | 512 | 1 | 54.0 | 22.76 | 43.8 | 8 |
 | `zai-org/glm-4-9b-hf` | decode | 1 | 32 | 512 | 2 | 85.8 | 28.42 | 68.3 | 12 |
 | `zai-org/glm-4-9b-hf` | decode | 1 | 32 | 512 | 4 | 86.7 | 28.99 | 136.5 | 24 |
@@ -486,11 +480,11 @@ Each row is one finished `done` configuration, including configs of the model th
 | `zai-org/glm-4-9b-hf` | prefill | 1 | 1024 | 32 | 1 | 147.3 | 22.04 | 38.3 | 108 |
 | `zai-org/glm-4-9b-hf` | prefill | 1 | 1024 | 32 | 8 | 850.2 | 31.10 | 139.9 | 400 |
 | `zai-org/glm-4-9b-hf` | prefill | 1 | 1024 | 32 | 32 | 1726.4 | 82.42 | 238.3 | 680 |
-| `zai-org/glm-4-9b-hf` | prefill | 1 | 1024 | 32 | 128 | 2429.0 | 370.5 | 273.1 | 843 |
+| `zai-org/glm-4-9b-hf` | prefill | 1 | 1024 | 32 | 128 | 2429.0 | 370.49 | 273.1 | 843 |
 | `zai-org/glm-4-9b-hf` | prefill | 1 | 4096 | 32 | 1 | 456.9 | 22.53 | 27.6 | 78 |
 | `zai-org/glm-4-9b-hf` | prefill | 1 | 4096 | 32 | 8 | 1325.0 | 98.40 | 57.1 | 168 |
-| `zai-org/glm-4-9b-hf` | prefill | 1 | 4096 | 32 | 32 | 2599.8 | 373.2 | 67.2 | 203 |
-| `zai-org/glm-4-9b-hf` | prefill | 1 | 4096 | 32 | 128 | 28754.7 | 870.8 | 57.1 | 165 |
+| `zai-org/glm-4-9b-hf` | prefill | 1 | 4096 | 32 | 32 | 2599.8 | 373.16 | 67.2 | 203 |
+| `zai-org/glm-4-9b-hf` | prefill | 1 | 4096 | 32 | 128 | 28754.7 | 870.84 | 57.1 | 165 |
 | `Qwen/Qwen3-0.6B` | decode | 1 | 32 | 512 | 1 | 38.6 | 10.24 | 96.7 | 18 |
 | `Qwen/Qwen3-0.6B` | decode | 1 | 32 | 512 | 2 | 61.1 | 11.17 | 177.0 | 32 |
 | `Qwen/Qwen3-0.6B` | decode | 1 | 32 | 512 | 4 | 62.1 | 10.11 | 384.8 | 68 |
@@ -510,7 +504,7 @@ Each row is one finished `done` configuration, including configs of the model th
 | `Qwen/Qwen3-0.6B` | prefill | 1 | 4096 | 32 | 1 | 74.4 | 10.37 | 81.2 | 229 |
 | `Qwen/Qwen3-0.6B` | prefill | 1 | 4096 | 32 | 8 | 159.3 | 17.88 | 355.6 | 1006 |
 | `Qwen/Qwen3-0.6B` | prefill | 1 | 4096 | 32 | 32 | 191.6 | 59.05 | 502.5 | 1431 |
-| `Qwen/Qwen3-0.6B` | prefill | 1 | 4096 | 32 | 128 | 3929.6 | 118.0 | 525.7 | 1576 |
+| `Qwen/Qwen3-0.6B` | prefill | 1 | 4096 | 32 | 128 | 3929.6 | 117.97 | 525.7 | 1576 |
 | `deepseek-ai/deepseek-coder-1.3b-instruct` | decode | 1 | 32 | 512 | 1 | 36.2 | 9.08 | 109.5 | 20 |
 | `deepseek-ai/deepseek-coder-1.3b-instruct` | decode | 1 | 32 | 512 | 2 | 58.1 | 9.79 | 203.0 | 36 |
 | `deepseek-ai/deepseek-coder-1.3b-instruct` | decode | 1 | 32 | 512 | 4 | 62.3 | 9.98 | 395.4 | 72 |
@@ -530,7 +524,7 @@ Each row is one finished `done` configuration, including configs of the model th
 | `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 4096 | 32 | 1 | 93.4 | 9.64 | 80.5 | 227 |
 | `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 4096 | 32 | 8 | 255.8 | 25.83 | 241.7 | 685 |
 | `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 4096 | 32 | 32 | 518.4 | 96.47 | 288.3 | 832 |
-| `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 4096 | 32 | 128 | 7351.4 | 197.0 | 294.8 | 928 |
+| `deepseek-ai/deepseek-coder-1.3b-instruct` | prefill | 1 | 4096 | 32 | 128 | 7351.4 | 197.03 | 294.8 | 928 |
 | `Qwen/Qwen2.5-1.5B-Instruct` | decode | 1 | 32 | 512 | 1 | 40.7 | 10.52 | 94.3 | 17 |
 | `Qwen/Qwen2.5-1.5B-Instruct` | decode | 1 | 32 | 512 | 2 | 62.6 | 10.11 | 194.3 | 36 |
 | `Qwen/Qwen2.5-1.5B-Instruct` | decode | 1 | 32 | 512 | 4 | 70.7 | 10.91 | 335.9 | 60 |
@@ -550,7 +544,7 @@ Each row is one finished `done` configuration, including configs of the model th
 | `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 4096 | 32 | 1 | 89.2 | 10.01 | 79.5 | 224 |
 | `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 4096 | 32 | 8 | 194.6 | 22.23 | 266.5 | 752 |
 | `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 4096 | 32 | 32 | 311.2 | 72.54 | 360.7 | 1031 |
-| `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 4096 | 32 | 128 | 5295.7 | 155.8 | 362.2 | 1117 |
+| `Qwen/Qwen2.5-1.5B-Instruct` | prefill | 1 | 4096 | 32 | 128 | 5295.7 | 155.81 | 362.2 | 1117 |
 | `HuggingFaceTB/SmolLM2-1.7B-Instruct` | decode | 1 | 32 | 512 | 1 | 36.4 | 9.60 | 103.8 | 19 |
 | `HuggingFaceTB/SmolLM2-1.7B-Instruct` | decode | 1 | 32 | 512 | 2 | 58.7 | 9.85 | 196.2 | 36 |
 | `HuggingFaceTB/SmolLM2-1.7B-Instruct` | decode | 1 | 32 | 512 | 4 | 63.2 | 10.08 | 392.3 | 72 |
@@ -566,11 +560,11 @@ Each row is one finished `done` configuration, including configs of the model th
 | `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 1024 | 32 | 1 | 63.9 | 9.33 | 89.3 | 252 |
 | `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 1024 | 32 | 8 | 224.8 | 10.37 | 466.5 | 1320 |
 | `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 1024 | 32 | 32 | 392.7 | 29.19 | 785.3 | 2240 |
-| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 1024 | 32 | 128 | 629.9 | 133.6 | 839.8 | 2432 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 1024 | 32 | 128 | 629.9 | 133.59 | 839.8 | 2432 |
 | `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 4096 | 32 | 1 | 112.5 | 9.29 | 80.0 | 226 |
 | `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 4096 | 32 | 8 | 325.2 | 32.57 | 190.7 | 543 |
-| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 4096 | 32 | 32 | 718.9 | 131.3 | 205.8 | 595 |
-| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 4096 | 32 | 128 | 10696.0 | 278.6 | 203.4 | 611 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 4096 | 32 | 32 | 718.9 | 131.31 | 205.8 | 595 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prefill | 1 | 4096 | 32 | 128 | 10696.0 | 278.61 | 203.4 | 611 |
 | `ibm-granite/granite-3.3-2b-instruct` | decode | 1 | 32 | 512 | 1 | 48.3 | 12.20 | 80.6 | 15 |
 | `ibm-granite/granite-3.3-2b-instruct` | decode | 1 | 32 | 512 | 2 | 78.2 | 12.27 | 160.2 | 30 |
 | `ibm-granite/granite-3.3-2b-instruct` | decode | 1 | 32 | 512 | 4 | 84.2 | 13.46 | 289.3 | 52 |
@@ -586,12 +580,223 @@ Each row is one finished `done` configuration, including configs of the model th
 | `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 1024 | 32 | 1 | 111.2 | 12.32 | 64.7 | 183 |
 | `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 1024 | 32 | 8 | 340.7 | 13.65 | 333.8 | 944 |
 | `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 1024 | 32 | 32 | 568.4 | 32.45 | 648.2 | 1839 |
-| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 1024 | 32 | 128 | 817.5 | 147.1 | 735.2 | 2161 |
+| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 1024 | 32 | 128 | 817.5 | 147.06 | 735.2 | 2161 |
 | `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 4096 | 32 | 1 | 168.0 | 11.63 | 60.1 | 170 |
 | `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 4096 | 32 | 8 | 472.1 | 37.96 | 153.8 | 440 |
-| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 4096 | 32 | 32 | 975.8 | 150.5 | 172.1 | 504 |
-| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 4096 | 32 | 128 | 11724.2 | 354.0 | 168.4 | 499 |
+| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 4096 | 32 | 32 | 975.8 | 150.47 | 172.1 | 504 |
+| `ibm-granite/granite-3.3-2b-instruct` | prefill | 1 | 4096 | 32 | 128 | 11724.2 | 354.04 | 168.4 | 499 |
 | `Qwen/Qwen2.5-3B-Instruct` | decode | 1 | 32 | 512 | 1 | 45.9 | 11.33 | 87.5 | 16 |
 | `Qwen/Qwen2.5-3B-Instruct` | decode | 1 | 32 | 512 | 2 | 73.9 | 11.45 | 171.6 | 32 |
 | `Qwen/Qwen2.5-3B-Instruct` | decode | 1 | 32 | 512 | 4 | 84.5 | 12.99 | 282.1 | 52 |
 | `Qwen/Qwen2.5-3B-Instruct` | decode | 1 | 32 | 512 | 8 | 126.5 | 12.10 | 596.9 | 112 |
+| `Qwen/Qwen2.5-3B-Instruct` | decode | 1 | 32 | 512 | 16 | 140.6 | 13.26 | 1064.5 | 192 |
+| `Qwen/Qwen2.5-3B-Instruct` | decode | 1 | 32 | 512 | 32 | 171.4 | 15.00 | 1933.9 | 352 |
+| `Qwen/Qwen2.5-3B-Instruct` | decode | 1 | 32 | 512 | 64 | 275.1 | 17.72 | 3238.3 | 576 |
+| `Qwen/Qwen2.5-3B-Instruct` | decode | 1 | 32 | 512 | 128 | 435.6 | 24.23 | 4750.2 | 896 |
+| `Qwen/Qwen2.5-3B-Instruct` | prefill | 1 | 256 | 32 | 1 | 91.4 | 11.50 | 70.7 | 199 |
+| `Qwen/Qwen2.5-3B-Instruct` | prefill | 1 | 256 | 32 | 8 | 184.2 | 12.61 | 411.7 | 1160 |
+| `Qwen/Qwen2.5-3B-Instruct` | prefill | 1 | 256 | 32 | 32 | 375.8 | 14.69 | 1132.8 | 3200 |
+| `Qwen/Qwen2.5-3B-Instruct` | prefill | 1 | 256 | 32 | 128 | 517.1 | 38.22 | 2185.9 | 6272 |
+| `Qwen/Qwen2.5-3B-Instruct` | prefill | 1 | 1024 | 32 | 1 | 96.9 | 12.00 | 68.5 | 193 |
+| `Qwen/Qwen2.5-3B-Instruct` | prefill | 1 | 1024 | 32 | 8 | 328.6 | 11.95 | 338.5 | 960 |
+| `Qwen/Qwen2.5-3B-Instruct` | prefill | 1 | 1024 | 32 | 32 | 551.2 | 30.51 | 626.0 | 1792 |
+| `Qwen/Qwen2.5-3B-Instruct` | prefill | 1 | 1024 | 32 | 128 | 798.6 | 125.50 | 777.9 | 2279 |
+| `Qwen/Qwen2.5-3B-Instruct` | prefill | 1 | 4096 | 32 | 1 | 157.9 | 10.98 | 63.6 | 179 |
+| `Qwen/Qwen2.5-3B-Instruct` | prefill | 1 | 4096 | 32 | 8 | 436.7 | 33.90 | 156.8 | 448 |
+| `Qwen/Qwen2.5-3B-Instruct` | prefill | 1 | 4096 | 32 | 32 | 873.5 | 126.28 | 185.3 | 544 |
+| `Qwen/Qwen2.5-3B-Instruct` | prefill | 1 | 4096 | 32 | 128 | 9920.7 | 292.05 | 188.4 | 594 |
+| `microsoft/Phi-4-mini-instruct` | decode | 1 | 32 | 512 | 1 | 47.2 | 11.03 | 90.4 | 16 |
+| `microsoft/Phi-4-mini-instruct` | decode | 1 | 32 | 512 | 2 | 71.3 | 10.99 | 179.8 | 32 |
+| `microsoft/Phi-4-mini-instruct` | decode | 1 | 32 | 512 | 4 | 72.6 | 11.29 | 348.7 | 64 |
+| `microsoft/Phi-4-mini-instruct` | decode | 1 | 32 | 512 | 8 | 126.7 | 12.19 | 641.6 | 120 |
+| `microsoft/Phi-4-mini-instruct` | decode | 1 | 32 | 512 | 16 | 185.9 | 13.80 | 1130.6 | 208 |
+| `microsoft/Phi-4-mini-instruct` | decode | 1 | 32 | 512 | 32 | 230.4 | 15.97 | 1955.1 | 352 |
+| `microsoft/Phi-4-mini-instruct` | decode | 1 | 32 | 512 | 64 | 282.3 | 19.79 | 3161.0 | 576 |
+| `microsoft/Phi-4-mini-instruct` | decode | 1 | 32 | 512 | 128 | 414.7 | 28.39 | 4369.1 | 768 |
+| `microsoft/Phi-4-mini-instruct` | prefill | 1 | 256 | 32 | 1 | 96.4 | 10.38 | 76.4 | 215 |
+| `microsoft/Phi-4-mini-instruct` | prefill | 1 | 256 | 32 | 8 | 179.2 | 11.91 | 466.5 | 1320 |
+| `microsoft/Phi-4-mini-instruct` | prefill | 1 | 256 | 32 | 32 | 297.6 | 18.08 | 1187.9 | 3360 |
+| `microsoft/Phi-4-mini-instruct` | prefill | 1 | 256 | 32 | 128 | 662.6 | 43.48 | 2016.9 | 5760 |
+| `microsoft/Phi-4-mini-instruct` | prefill | 1 | 1024 | 32 | 1 | 100.0 | 11.16 | 71.8 | 203 |
+| `microsoft/Phi-4-mini-instruct` | prefill | 1 | 1024 | 32 | 8 | 355.0 | 13.41 | 330.8 | 936 |
+| `microsoft/Phi-4-mini-instruct` | prefill | 1 | 1024 | 32 | 32 | 663.6 | 38.17 | 547.0 | 1568 |
+| `microsoft/Phi-4-mini-instruct` | prefill | 1 | 1024 | 32 | 128 | 953.0 | 164.20 | 647.9 | 1920 |
+| `microsoft/Phi-4-mini-instruct` | prefill | 1 | 4096 | 32 | 1 | 187.6 | 11.28 | 59.3 | 167 |
+| `microsoft/Phi-4-mini-instruct` | prefill | 1 | 4096 | 32 | 8 | 534.2 | 43.63 | 133.9 | 384 |
+| `microsoft/Phi-4-mini-instruct` | prefill | 1 | 4096 | 32 | 32 | 1071.8 | 164.02 | 158.3 | 460 |
+| `microsoft/Phi-4-mini-instruct` | prefill | 1 | 4096 | 32 | 128 | 12469.6 | 374.97 | 158.3 | 467 |
+| `Qwen/Qwen3-4B-Instruct-2507` | decode | 1 | 32 | 512 | 1 | 42.0 | 11.45 | 85.4 | 16 |
+| `Qwen/Qwen3-4B-Instruct-2507` | decode | 1 | 32 | 512 | 2 | 70.1 | 11.84 | 166.6 | 30 |
+| `Qwen/Qwen3-4B-Instruct-2507` | decode | 1 | 32 | 512 | 4 | 73.2 | 11.93 | 332.9 | 60 |
+| `Qwen/Qwen3-4B-Instruct-2507` | decode | 1 | 32 | 512 | 8 | 127.2 | 12.07 | 647.6 | 120 |
+| `Qwen/Qwen3-4B-Instruct-2507` | decode | 1 | 32 | 512 | 16 | 135.6 | 12.85 | 1224.9 | 224 |
+| `Qwen/Qwen3-4B-Instruct-2507` | decode | 1 | 32 | 512 | 32 | 187.8 | 15.32 | 2062.7 | 384 |
+| `Qwen/Qwen3-4B-Instruct-2507` | decode | 1 | 32 | 512 | 64 | 271.9 | 17.82 | 3490.3 | 640 |
+| `Qwen/Qwen3-4B-Instruct-2507` | decode | 1 | 32 | 512 | 128 | 419.3 | 25.01 | 4971.5 | 896 |
+| `Qwen/Qwen3-4B-Instruct-2507` | prefill | 1 | 256 | 32 | 1 | 91.1 | 10.70 | 71.2 | 201 |
+| `Qwen/Qwen3-4B-Instruct-2507` | prefill | 1 | 256 | 32 | 8 | 181.6 | 12.06 | 455.1 | 1288 |
+| `Qwen/Qwen3-4B-Instruct-2507` | prefill | 1 | 256 | 32 | 32 | 434.4 | 14.01 | 1171.9 | 3328 |
+| `Qwen/Qwen3-4B-Instruct-2507` | prefill | 1 | 256 | 32 | 128 | 704.0 | 43.47 | 1959.4 | 5632 |
+| `Qwen/Qwen3-4B-Instruct-2507` | prefill | 1 | 1024 | 32 | 1 | 97.7 | 11.61 | 70.0 | 198 |
+| `Qwen/Qwen3-4B-Instruct-2507` | prefill | 1 | 1024 | 32 | 8 | 376.8 | 11.83 | 339.1 | 960 |
+| `Qwen/Qwen3-4B-Instruct-2507` | prefill | 1 | 1024 | 32 | 32 | 730.3 | 36.91 | 545.5 | 1544 |
+| `Qwen/Qwen3-4B-Instruct-2507` | prefill | 1 | 1024 | 32 | 128 | 1070.1 | 175.55 | 599.9 | 1788 |
+| `Qwen/Qwen3-4B-Instruct-2507` | prefill | 1 | 4096 | 32 | 1 | 206.2 | 11.52 | 56.5 | 160 |
+| `Qwen/Qwen3-4B-Instruct-2507` | prefill | 1 | 4096 | 32 | 8 | 618.7 | 46.97 | 122.4 | 352 |
+| `Qwen/Qwen3-4B-Instruct-2507` | prefill | 1 | 4096 | 32 | 32 | 1254.2 | 186.14 | 137.6 | 407 |
+| `Qwen/Qwen3-4B-Instruct-2507` | prefill | 1 | 4096 | 32 | 128 | 14324.8 | 433.21 | 135.4 | 398 |
+| `HuggingFaceH4/zephyr-7b-beta` | decode | 1 | 32 | 512 | 1 | 48.9 | 14.00 | 71.1 | 13 |
+| `HuggingFaceH4/zephyr-7b-beta` | decode | 1 | 32 | 512 | 2 | 74.3 | 14.38 | 137.9 | 26 |
+| `HuggingFaceH4/zephyr-7b-beta` | decode | 1 | 32 | 512 | 4 | 76.1 | 14.79 | 268.2 | 48 |
+| `HuggingFaceH4/zephyr-7b-beta` | decode | 1 | 32 | 512 | 8 | 114.3 | 15.58 | 507.0 | 96 |
+| `HuggingFaceH4/zephyr-7b-beta` | decode | 1 | 32 | 512 | 16 | 159.3 | 16.66 | 943.9 | 176 |
+| `HuggingFaceH4/zephyr-7b-beta` | decode | 1 | 32 | 512 | 32 | 164.0 | 18.73 | 1680.2 | 320 |
+| `HuggingFaceH4/zephyr-7b-beta` | decode | 1 | 32 | 512 | 64 | 255.1 | 23.49 | 2678.6 | 512 |
+| `HuggingFaceH4/zephyr-7b-beta` | decode | 1 | 32 | 512 | 128 | 467.2 | 32.04 | 3662.3 | 649 |
+| `HuggingFaceH4/zephyr-7b-beta` | prefill | 1 | 256 | 32 | 1 | 85.0 | 13.77 | 62.3 | 176 |
+| `HuggingFaceH4/zephyr-7b-beta` | prefill | 1 | 256 | 32 | 8 | 206.0 | 15.57 | 371.3 | 1048 |
+| `HuggingFaceH4/zephyr-7b-beta` | prefill | 1 | 256 | 32 | 32 | 566.6 | 20.24 | 853.5 | 2432 |
+| `HuggingFaceH4/zephyr-7b-beta` | prefill | 1 | 256 | 32 | 128 | 1269.9 | 62.56 | 1270.9 | 3625 |
+| `HuggingFaceH4/zephyr-7b-beta` | prefill | 1 | 1024 | 32 | 1 | 93.7 | 14.21 | 59.8 | 169 |
+| `HuggingFaceH4/zephyr-7b-beta` | prefill | 1 | 1024 | 32 | 8 | 604.2 | 16.59 | 227.6 | 648 |
+| `HuggingFaceH4/zephyr-7b-beta` | prefill | 1 | 1024 | 32 | 32 | 1259.9 | 55.93 | 341.2 | 982 |
+| `HuggingFaceH4/zephyr-7b-beta` | prefill | 1 | 1024 | 32 | 128 | 1784.5 | 280.42 | 367.7 | 1121 |
+| `HuggingFaceH4/zephyr-7b-beta` | prefill | 1 | 4096 | 32 | 1 | 329.1 | 15.10 | 40.0 | 113 |
+| `HuggingFaceH4/zephyr-7b-beta` | prefill | 1 | 4096 | 32 | 8 | 973.4 | 70.20 | 79.8 | 232 |
+| `HuggingFaceH4/zephyr-7b-beta` | prefill | 1 | 4096 | 32 | 32 | 1974.5 | 285.55 | 89.0 | 263 |
+| `HuggingFaceH4/zephyr-7b-beta` | prefill | 1 | 4096 | 32 | 128 | 21936.7 | 663.28 | 81.6 | 237 |
+| `Qwen/Qwen2.5-7B-Instruct` | decode | 1 | 32 | 512 | 1 | 39.6 | 13.81 | 72.2 | 13 |
+| `Qwen/Qwen2.5-7B-Instruct` | decode | 1 | 32 | 512 | 2 | 65.9 | 13.99 | 141.9 | 26 |
+| `Qwen/Qwen2.5-7B-Instruct` | decode | 1 | 32 | 512 | 4 | 67.7 | 14.25 | 256.6 | 48 |
+| `Qwen/Qwen2.5-7B-Instruct` | decode | 1 | 32 | 512 | 8 | 96.9 | 15.00 | 486.1 | 88 |
+| `Qwen/Qwen2.5-7B-Instruct` | decode | 1 | 32 | 512 | 16 | 139.3 | 16.33 | 888.1 | 160 |
+| `Qwen/Qwen2.5-7B-Instruct` | decode | 1 | 32 | 512 | 32 | 151.2 | 17.60 | 1647.7 | 320 |
+| `Qwen/Qwen2.5-7B-Instruct` | decode | 1 | 32 | 512 | 64 | 259.1 | 20.60 | 2800.7 | 512 |
+| `Qwen/Qwen2.5-7B-Instruct` | decode | 1 | 32 | 512 | 128 | 431.2 | 26.04 | 4369.1 | 768 |
+| `Qwen/Qwen2.5-7B-Instruct` | prefill | 1 | 256 | 32 | 1 | 67.3 | 13.64 | 65.2 | 184 |
+| `Qwen/Qwen2.5-7B-Instruct` | prefill | 1 | 256 | 32 | 8 | 184.4 | 14.98 | 363.4 | 1024 |
+| `Qwen/Qwen2.5-7B-Instruct` | prefill | 1 | 256 | 32 | 32 | 511.8 | 19.08 | 852.8 | 2401 |
+| `Qwen/Qwen2.5-7B-Instruct` | prefill | 1 | 256 | 32 | 128 | 1440.8 | 54.52 | 1237.0 | 3602 |
+| `Qwen/Qwen2.5-7B-Instruct` | prefill | 1 | 1024 | 32 | 1 | 88.4 | 13.73 | 62.2 | 175 |
+| `Qwen/Qwen2.5-7B-Instruct` | prefill | 1 | 1024 | 32 | 8 | 543.0 | 15.38 | 230.4 | 656 |
+| `Qwen/Qwen2.5-7B-Instruct` | prefill | 1 | 1024 | 32 | 32 | 1151.2 | 50.11 | 342.2 | 992 |
+| `Qwen/Qwen2.5-7B-Instruct` | prefill | 1 | 1024 | 32 | 128 | 1648.4 | 250.42 | 372.6 | 1152 |
+| `Qwen/Qwen2.5-7B-Instruct` | prefill | 1 | 4096 | 32 | 1 | 292.4 | 14.15 | 43.7 | 123 |
+| `Qwen/Qwen2.5-7B-Instruct` | prefill | 1 | 4096 | 32 | 8 | 879.2 | 61.70 | 82.8 | 240 |
+| `Qwen/Qwen2.5-7B-Instruct` | prefill | 1 | 4096 | 32 | 32 | 1772.1 | 251.25 | 91.5 | 277 |
+| `Qwen/Qwen2.5-7B-Instruct` | prefill | 1 | 4096 | 32 | 128 | 20207.4 | 594.54 | 85.1 | 249 |
+| `ibm-granite/granite-3.3-8b-instruct` | decode | 1 | 32 | 512 | 1 | 52.4 | 15.91 | 62.6 | 11 |
+| `ibm-granite/granite-3.3-8b-instruct` | decode | 1 | 32 | 512 | 2 | 76.7 | 16.43 | 120.8 | 22 |
+| `ibm-granite/granite-3.3-8b-instruct` | decode | 1 | 32 | 512 | 4 | 83.1 | 16.96 | 233.9 | 44 |
+| `ibm-granite/granite-3.3-8b-instruct` | decode | 1 | 32 | 512 | 8 | 139.7 | 18.09 | 436.4 | 80 |
+| `ibm-granite/granite-3.3-8b-instruct` | decode | 1 | 32 | 512 | 16 | 138.1 | 19.47 | 811.7 | 144 |
+| `ibm-granite/granite-3.3-8b-instruct` | decode | 1 | 32 | 512 | 32 | 193.4 | 21.26 | 1478.2 | 288 |
+| `ibm-granite/granite-3.3-8b-instruct` | decode | 1 | 32 | 512 | 64 | 315.8 | 26.76 | 2344.0 | 448 |
+| `ibm-granite/granite-3.3-8b-instruct` | decode | 1 | 32 | 512 | 128 | 489.2 | 35.77 | 3500.8 | 640 |
+| `ibm-granite/granite-3.3-8b-instruct` | prefill | 1 | 256 | 32 | 1 | 107.7 | 15.66 | 53.9 | 152 |
+| `ibm-granite/granite-3.3-8b-instruct` | prefill | 1 | 256 | 32 | 8 | 237.9 | 18.14 | 319.0 | 904 |
+| `ibm-granite/granite-3.3-8b-instruct` | prefill | 1 | 256 | 32 | 32 | 719.6 | 21.24 | 739.6 | 2112 |
+| `ibm-granite/granite-3.3-8b-instruct` | prefill | 1 | 256 | 32 | 128 | 1391.0 | 75.21 | 1092.6 | 3197 |
+| `ibm-granite/granite-3.3-8b-instruct` | prefill | 1 | 1024 | 32 | 1 | 105.5 | 16.06 | 53.0 | 150 |
+| `ibm-granite/granite-3.3-8b-instruct` | prefill | 1 | 1024 | 32 | 8 | 682.5 | 19.50 | 198.5 | 560 |
+| `ibm-granite/granite-3.3-8b-instruct` | prefill | 1 | 1024 | 32 | 32 | 1449.3 | 64.80 | 295.7 | 854 |
+| `ibm-granite/granite-3.3-8b-instruct` | prefill | 1 | 1024 | 32 | 128 | 2094.2 | 325.53 | 318.5 | 970 |
+| `ibm-granite/granite-3.3-8b-instruct` | prefill | 1 | 4096 | 32 | 1 | 372.1 | 16.94 | 35.6 | 101 |
+| `ibm-granite/granite-3.3-8b-instruct` | prefill | 1 | 4096 | 32 | 8 | 1141.7 | 82.36 | 68.4 | 199 |
+| `ibm-granite/granite-3.3-8b-instruct` | prefill | 1 | 4096 | 32 | 32 | 2271.6 | 329.62 | 76.7 | 228 |
+| `ibm-granite/granite-3.3-8b-instruct` | prefill | 1 | 4096 | 32 | 128 | 30321.2 | 634.69 | 70.5 | 204 |
+| `microsoft/phi-4` | decode | 1 | 32 | 512 | 1 | 49.3 | 25.58 | 39.0 | 7 |
+| `microsoft/phi-4` | decode | 1 | 32 | 512 | 2 | 88.2 | 25.87 | 77.0 | 14 |
+| `microsoft/phi-4` | decode | 1 | 32 | 512 | 4 | 81.1 | 26.39 | 150.9 | 28 |
+| `microsoft/phi-4` | decode | 1 | 32 | 512 | 8 | 133.8 | 27.54 | 288.1 | 56 |
+| `microsoft/phi-4` | decode | 1 | 32 | 512 | 16 | 171.8 | 29.64 | 534.8 | 96 |
+| `microsoft/phi-4` | decode | 1 | 32 | 512 | 32 | 214.2 | 33.18 | 910.2 | 160 |
+| `microsoft/phi-4` | decode | 1 | 32 | 512 | 64 | 405.7 | 39.32 | 1456.4 | 256 |
+| `microsoft/phi-4` | decode | 1 | 32 | 512 | 128 | 714.5 | 51.07 | 2184.5 | 384 |
+| `microsoft/phi-4` | prefill | 1 | 256 | 32 | 1 | 93.4 | 25.30 | 36.4 | 103 |
+| `microsoft/phi-4` | prefill | 1 | 256 | 32 | 8 | 329.7 | 27.54 | 216.2 | 616 |
+| `microsoft/phi-4` | prefill | 1 | 256 | 32 | 32 | 1136.8 | 33.05 | 468.2 | 1344 |
+| `microsoft/phi-4` | prefill | 1 | 256 | 32 | 128 | 2592.9 | 105.28 | 683.3 | 2048 |
+| `microsoft/phi-4` | prefill | 1 | 1024 | 32 | 1 | 158.4 | 25.86 | 33.3 | 94 |
+| `microsoft/phi-4` | prefill | 1 | 1024 | 32 | 8 | 1127.7 | 29.13 | 125.2 | 360 |
+| `microsoft/phi-4` | prefill | 1 | 1024 | 32 | 32 | 2417.7 | 103.85 | 181.4 | 520 |
+| `microsoft/phi-4` | prefill | 1 | 1024 | 32 | 128 | 5706.6 | 457.63 | 188.8 | 616 |
+| `microsoft/phi-4` | prefill | 1 | 4096 | 32 | 128 | 42859.9 | 507.51 | 42.6 | 130 |
+| `Qwen/Qwen2.5-14B-Instruct` | decode | 1 | 32 | 512 | 1 | 56.2 | 26.52 | 37.6 | 7 |
+| `Qwen/Qwen2.5-14B-Instruct` | decode | 1 | 32 | 512 | 2 | 106.7 | 26.75 | 74.3 | 14 |
+| `Qwen/Qwen2.5-14B-Instruct` | decode | 1 | 32 | 512 | 4 | 95.7 | 27.35 | 134.1 | 24 |
+| `Qwen/Qwen2.5-14B-Instruct` | decode | 1 | 32 | 512 | 8 | 145.6 | 28.57 | 256.1 | 48 |
+| `Qwen/Qwen2.5-14B-Instruct` | decode | 1 | 32 | 512 | 16 | 146.5 | 30.48 | 455.1 | 80 |
+| `Qwen/Qwen2.5-14B-Instruct` | decode | 1 | 32 | 512 | 32 | 248.0 | 34.16 | 852.0 | 160 |
+| `Qwen/Qwen2.5-14B-Instruct` | decode | 1 | 32 | 512 | 64 | 341.2 | 40.54 | 1437.1 | 256 |
+| `Qwen/Qwen2.5-14B-Instruct` | decode | 1 | 32 | 512 | 128 | 754.3 | 53.35 | 2161.6 | 384 |
+| `Qwen/Qwen2.5-14B-Instruct` | prefill | 1 | 256 | 32 | 1 | 111.4 | 26.11 | 34.7 | 98 |
+| `Qwen/Qwen2.5-14B-Instruct` | prefill | 1 | 256 | 32 | 8 | 340.6 | 28.56 | 192.1 | 544 |
+| `Qwen/Qwen2.5-14B-Instruct` | prefill | 1 | 256 | 32 | 32 | 1126.9 | 34.13 | 431.3 | 1216 |
+| `Qwen/Qwen2.5-14B-Instruct` | prefill | 1 | 256 | 32 | 128 | 3023.1 | 110.96 | 636.8 | 1886 |
+| `Qwen/Qwen2.5-14B-Instruct` | prefill | 1 | 1024 | 32 | 1 | 161.8 | 26.56 | 32.4 | 92 |
+| `Qwen/Qwen2.5-14B-Instruct` | prefill | 1 | 1024 | 32 | 8 | 1116.1 | 30.10 | 113.9 | 328 |
+| `Qwen/Qwen2.5-14B-Instruct` | prefill | 1 | 1024 | 32 | 32 | 2363.4 | 102.52 | 170.3 | 495 |
+| `Qwen/Qwen2.5-14B-Instruct` | prefill | 1 | 1024 | 32 | 128 | 4549.2 | 476.91 | 161.1 | 553 |
+| `Qwen/Qwen2.5-14B-Instruct` | prefill | 1 | 4096 | 32 | 1 | 593.5 | 27.43 | 22.0 | 63 |
+| `Qwen/Qwen2.5-14B-Instruct` | prefill | 1 | 4096 | 32 | 8 | 1807.1 | 127.58 | 39.9 | 119 |
+| `Qwen/Qwen2.5-14B-Instruct` | prefill | 1 | 4096 | 32 | 32 | 4682.4 | 525.18 | 42.1 | 135 |
+| `Qwen/Qwen2.5-14B-Instruct` | prefill | 1 | 4096 | 32 | 128 | 43920.5 | 526.22 | 41.5 | 119 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | decode | 1 | 32 | 512 | 1 | 55.2 | 26.43 | 37.8 | 7 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | decode | 1 | 32 | 512 | 2 | 101.0 | 26.78 | 74.3 | 14 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | decode | 1 | 32 | 512 | 4 | 96.9 | 27.35 | 145.5 | 28 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | decode | 1 | 32 | 512 | 8 | 154.8 | 28.50 | 273.1 | 48 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | decode | 1 | 32 | 512 | 16 | 161.5 | 30.37 | 522.5 | 96 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | decode | 1 | 32 | 512 | 32 | 250.3 | 34.00 | 910.2 | 160 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | decode | 1 | 32 | 512 | 64 | 342.5 | 39.96 | 1456.4 | 256 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | decode | 1 | 32 | 512 | 128 | 721.4 | 51.69 | 2184.5 | 384 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | prefill | 1 | 256 | 32 | 1 | 114.1 | 26.24 | 34.4 | 97 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | prefill | 1 | 256 | 32 | 8 | 340.4 | 28.71 | 207.6 | 592 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | prefill | 1 | 256 | 32 | 32 | 1124.2 | 33.79 | 466.5 | 1344 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | prefill | 1 | 256 | 32 | 128 | 2319.4 | 115.62 | 683.7 | 2048 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | prefill | 1 | 1024 | 32 | 1 | 161.8 | 26.61 | 32.4 | 92 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | prefill | 1 | 1024 | 32 | 8 | 1114.0 | 30.06 | 125.2 | 360 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | prefill | 1 | 1024 | 32 | 32 | 2361.0 | 102.31 | 182.1 | 541 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | prefill | 1 | 1024 | 32 | 128 | 4546.0 | 474.34 | 193.5 | 616 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | prefill | 1 | 4096 | 32 | 1 | 591.6 | 27.51 | 22.0 | 63 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | prefill | 1 | 4096 | 32 | 8 | 1809.5 | 127.74 | 42.9 | 128 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | prefill | 1 | 4096 | 32 | 32 | 4207.1 | 524.96 | 43.9 | 147 |
+| `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B` | prefill | 1 | 4096 | 32 | 128 | 41943.9 | 526.52 | 43.4 | 128 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | decode | 2 | 32 | 512 | 2 | 78.7 | 14.69 | 134.2 | 24 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | decode | 2 | 32 | 512 | 4 | 94.7 | 15.43 | 256.4 | 48 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | decode | 2 | 32 | 512 | 8 | 113.0 | 16.87 | 469.4 | 88 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | decode | 2 | 32 | 512 | 16 | 126.0 | 20.09 | 795.8 | 144 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | decode | 2 | 32 | 512 | 32 | 345.5 | 24.38 | 1271.7 | 228 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | decode | 2 | 32 | 512 | 64 | 448.2 | 31.46 | 1977.8 | 384 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | decode | 2 | 32 | 512 | 128 | 609.5 | 37.34 | 3300.8 | 640 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | prefill | 2 | 256 | 32 | 1 | 188.6 | 15.38 | 48.1 | 136 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | prefill | 2 | 256 | 32 | 8 | 375.8 | 22.03 | 238.9 | 680 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | prefill | 2 | 256 | 32 | 32 | 564.0 | 38.61 | 568.4 | 1610 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | prefill | 2 | 256 | 32 | 128 | 607.2 | 100.68 | 1055.6 | 3072 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | prefill | 2 | 1024 | 32 | 1 | 190.1 | 14.70 | 49.1 | 139 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | prefill | 2 | 1024 | 32 | 8 | 557.1 | 15.22 | 240.3 | 680 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | prefill | 2 | 1024 | 32 | 32 | 798.0 | 51.86 | 421.1 | 1212 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | prefill | 2 | 1024 | 32 | 128 | 1257.1 | 203.08 | 510.6 | 1536 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | prefill | 2 | 4096 | 32 | 1 | 245.8 | 14.16 | 46.5 | 131 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | prefill | 2 | 4096 | 32 | 8 | 690.6 | 52.25 | 110.7 | 314 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | prefill | 2 | 4096 | 32 | 32 | 1327.1 | 197.44 | 127.2 | 383 |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | prefill | 2 | 4096 | 32 | 128 | 15086.8 | 456.09 | 126.6 | 372 |
+| `Qwen/Qwen3-32B` | decode | 2 | 32 | 512 | 2 | 111.0 | 33.64 | 56.9 | 10 |
+| `Qwen/Qwen3-32B` | decode | 2 | 32 | 512 | 4 | 129.6 | 34.42 | 113.8 | 20 |
+| `Qwen/Qwen3-32B` | decode | 2 | 32 | 512 | 8 | 195.7 | 36.24 | 218.6 | 40 |
+| `Qwen/Qwen3-32B` | decode | 2 | 32 | 512 | 16 | 203.9 | 38.87 | 364.1 | 64 |
+| `Qwen/Qwen3-32B` | decode | 2 | 32 | 512 | 32 | 252.6 | 44.08 | 717.8 | 128 |
+| `Qwen/Qwen3-32B` | decode | 2 | 32 | 512 | 64 | 512.0 | 52.62 | 1092.3 | 192 |
+| `Qwen/Qwen3-32B` | decode | 2 | 32 | 512 | 128 | 536.4 | 67.26 | 1456.4 | 256 |
+| `Qwen/Qwen3-32B` | prefill | 2 | 256 | 32 | 1 | 130.0 | 33.48 | 27.4 | 77 |
+| `Qwen/Qwen3-32B` | prefill | 2 | 256 | 32 | 8 | 433.6 | 39.58 | 150.9 | 432 |
+| `Qwen/Qwen3-32B` | prefill | 2 | 256 | 32 | 32 | 1008.1 | 69.29 | 318.9 | 928 |
+| `Qwen/Qwen3-32B` | prefill | 2 | 256 | 32 | 128 | 3234.1 | 183.61 | 452.0 | 1312 |
+| `Qwen/Qwen3-32B` | prefill | 2 | 1024 | 32 | 1 | 260.7 | 33.02 | 24.9 | 71 |
+| `Qwen/Qwen3-32B` | prefill | 2 | 1024 | 32 | 8 | 1835.1 | 37.27 | 85.3 | 248 |
+| `Qwen/Qwen3-32B` | prefill | 2 | 1024 | 32 | 32 | 3580.1 | 158.46 | 114.2 | 352 |
+| `Qwen/Qwen3-32B` | prefill | 2 | 1024 | 32 | 128 | 5398.2 | 800.21 | 102.9 | 384 |
+| `Qwen/Qwen3-32B` | prefill | 2 | 4096 | 32 | 1 | 952.9 | 34.30 | 15.8 | 45 |
+| `Qwen/Qwen3-32B` | prefill | 2 | 4096 | 32 | 8 | 2846.7 | 187.82 | 28.5 | 87 |
+| `Qwen/Qwen3-32B` | prefill | 2 | 4096 | 32 | 32 | 7462.3 | 792.18 | 25.0 | 96 |
+| `Qwen/Qwen3-32B` | prefill | 2 | 4096 | 32 | 128 | 34808.7 | 1031.97 | 24.2 | 69 |
